@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV2 WhatIf Research Findings - Presentation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .presentation {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .slide {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+        }
+        .slide h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .slide h2 {
+            color: #34495e;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .slide h3 {
+            color: #7f8c8d;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .highlight {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .quote {
+            background: #e8f6f3;
+            border-left: 4px solid #27ae60;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-style: italic;
+            border-radius: 5px;
+        }
+        .recommendation {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .priority-high {
+            border-left: 4px solid #e74c3c;
+            background: #fdedec;
+        }
+        .priority-medium {
+            border-left: 4px solid #f39c12;
+            background: #fef9e7;
+        }
+        .priority-low {
+            border-left: 4px solid #27ae60;
+            background: #eafaf1;
+        }
+        .stats {
+            text-align: center;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .stats h3 {
+            color: #2c3e50;
+            font-size: 2em;
+            margin: 0;
+        }
+        .stats p {
+            color: #7f8c8d;
+            margin: 5px 0 0 0;
+        }
+        ul {
+            line-height: 1.6;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        .title-slide {
+            text-align: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .title-slide h1 {
+            font-size: 3.5em;
+            border: none;
+            color: white;
+        }
+        .title-slide h2 {
+            font-size: 1.5em;
+            color: #ecf0f1;
+            font-weight: 300;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        @media print {
+            .navigation {
+                display: none;
+            }
+            .slide {
+                margin-bottom: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        
+        <!-- Title Slide -->
+        <div class="slide title-slide">
+            <h1>EV2 WhatIf Research Findings</h1>
+            <h2>User Experience Insights & Design Recommendations</h2>
+            <div style="margin-top: 50px;">
+                <p style="font-size: 1.2em;">Research conducted with Azure Event Grid, Learn, and Localization teams</p>
+                <p style="font-size: 1em; margin-top: 30px;">October 2025</p>
+            </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="slide">
+            <h1>Executive Summary</h1>
+            
+            <div class="stats">
+                <h3>4 Participants</h3>
+                <p>Azure Event Grid, Learn, Localization teams</p>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Key Findings</h3>
+                    <ul>
+                        <li>Users have strong mental models from other tools (Terraform, CloudFormation)</li>
+                        <li>Progressive disclosure is critical for user confidence</li>
+                        <li>Resource names/types essential in summary views</li>
+                        <li>Delete operations require special visual treatment</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🚀 Impact</h3>
+                    <ul>
+                        <li>Clear design direction validated</li>
+                        <li>Specific UI requirements identified</li>
+                        <li>Portal integration strategy confirmed</li>
+                        <li>Security boundary approach validated</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Questions -->
+        <div class="slide">
+            <h1>Research Areas Investigated</h1>
+            
+            <div class="highlight">
+                <h3>Area 1: WhatIf Result Display in EV2 Portal</h3>
+                <p>How users interpret and want to see WhatIf results integrated into EV2</p>
+            </div>
+
+            <div class="highlight">
+                <h3>Area 2: Delete Confirmation & Safeguards</h3>
+                <p>User expectations around delete operations and safety mechanisms</p>
+            </div>
+
+            <div class="highlight">
+                <h3>Area 3: Visual Design & Information Architecture</h3>
+                <p>How visual treatments impact user attention and comprehension</p>
+            </div>
+
+            <div class="highlight">
+                <h3>Area 4: Navigation & Cross-Portal Experience</h3>
+                <p>User mental models for navigating between EV2 and Azure portals</p>
+            </div>
+
+            <div class="highlight">
+                <h3>Area 5: Change Type Comprehension</h3>
+                <p>How users understand create, modify, delete, and other change types</p>
+            </div>
+        </div>
+
+        <!-- Key Finding 1 -->
+        <div class="slide">
+            <h1>Key Finding 1: Progressive Disclosure Model</h1>
+            
+            <div class="quote">
+                <strong>Alex (Event Grid):</strong> "this just gives me a high level. This is what's going to happen on a high level. But you give me the option of, OK, I want to see that more detail"
+            </div>
+
+            <h2>User Mental Model</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="display: inline-flex; align-items: center; font-size: 1.2em;">
+                    <span style="background: #3498db; color: white; padding: 10px 20px; border-radius: 5px;">EV2 Summary</span>
+                    <span style="margin: 0 20px;">→</span>
+                    <span style="background: #27ae60; color: white; padding: 10px 20px; border-radius: 5px;">Detailed View</span>
+                    <span style="margin: 0 20px;">→</span>
+                    <span style="background: #8e44ad; color: white; padding: 10px 20px; border-radius: 5px;">Azure Portal</span>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3>✅ What Works</h3>
+                    <ul>
+                        <li>High-level summary first</li>
+                        <li>Click to drill down</li>
+                        <li>Security-appropriate boundaries</li>
+                        <li>Context preservation</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>⚠️ User Needs</h3>
+                    <ul>
+                        <li>Resource names visible in summary</li>
+                        <li>Clickable change type counts</li>
+                        <li>Clear navigation cues</li>
+                        <li>Status indicators</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Finding 2 -->
+        <div class="slide">
+            <h1>Key Finding 2: Clickable Change Types</h1>
+            
+            <div class="quote">
+                <strong>Alex (Event Grid):</strong> "I think it'd be useful if under each column where you have create three resources, if that also was kind of a hyperlink and I can just click on that to specifically just see the create. Resources"
+            </div>
+
+            <h2>Current vs. Requested Design</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h3>❌ Current Approach</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; text-align: center;">
+                        <div style="margin: 10px 0;">Create: 3 resources</div>
+                        <div style="margin: 10px 0;">Delete: 1 resource</div>
+                        <div style="margin: 10px 0;">Modify: 2 resources</div>
+                        <p style="color: #7f8c8d; font-size: 0.9em;">Static text only</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>✅ User-Requested Design</h3>
+                    <div style="background: #e8f6f3; padding: 20px; border-radius: 5px; text-align: center;">
+                        <div style="margin: 10px 0; text-decoration: underline; color: #3498db; cursor: pointer;">Create: 3 resources</div>
+                        <div style="margin: 10px 0; text-decoration: underline; color: #e74c3c; cursor: pointer;">Delete: 1 resource</div>
+                        <div style="margin: 10px 0; text-decoration: underline; color: #f39c12; cursor: pointer;">Modify: 2 resources</div>
+                        <p style="color: #27ae60; font-size: 0.9em;">Clickable to filter</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Finding 3 -->
+        <div class="slide">
+            <h1>Key Finding 3: Resource Names Critical</h1>
+            
+            <div class="quote">
+                <strong>Alex (Event Grid):</strong> "I feel like the names and what the resource type is is already, you know out and available. In an ARM template, so might as well be able to show it here and that at the very least can give me some insight. It's like, great, OK. Yep, that's those are the storage accounts I'm looking to see, or VMSS, the VM scale sets"
+            </div>
+
+            <h2>Why Resource Names Matter</h2>
+            <div class="two-column">
+                <div>
+                    <h3>🔍 User Confidence</h3>
+                    <ul>
+                        <li>Verify expected changes</li>
+                        <li>Identify unexpected changes</li>
+                        <li>Cross-reference with templates</li>
+                        <li>Dependency understanding</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🎯 Use Cases</h3>
+                    <ul>
+                        <li>Region buildouts (50+ regions)</li>
+                        <li>Service fabric cluster updates</li>
+                        <li>Storage account validation</li>
+                        <li>VMSS troubleshooting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <strong>Recommendation:</strong> Show resource names and types in summary view, not just counts
+            </div>
+        </div>
+
+        <!-- Key Finding 4 -->
+        <div class="slide">
+            <h1>Key Finding 4: Delete Operations Priority</h1>
+            
+            <div class="quote">
+                <strong>Imran (Learn/Localization):</strong> "I think the most interesting one for me would be I will jump. I think when I when I see the screen I would be jumping into the delete ones and I would be very much interested to see what's happening on that because creates are OK, modify is fine, I know deletes are the risky ones"
+            </div>
+
+            <h2>Current Deletion Workflows</h2>
+            <div class="three-column">
+                <div>
+                    <h3>Alex's Process</h3>
+                    <ul>
+                        <li>JIT for prod access</li>
+                        <li>Manual portal deletion</li>
+                        <li>Infrequent (every 6 months)</li>
+                        <li>Misconfigured resource cleanup</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>David's Process</h3>
+                    <ul>
+                        <li>SFI-driven deletions</li>
+                        <li>VMSS recreation (flaky resources)</li>
+                        <li>Always ICM-tracked</li>
+                        <li>R2D compliance tracking</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>JR's Process</h3>
+                    <ul>
+                        <li>Traffic manager disabling</li>
+                        <li>Log verification</li>
+                        <li>Lease collection draining</li>
+                        <li>Bulk cleanup quarterly</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <strong>Design Implication:</strong> Delete operations need special visual treatment and workflow integration
+            </div>
+        </div>
+
+        <!-- Key Finding 5 -->
+        <div class="slide">
+            <h1>Key Finding 5: Portal Hopping Pain Point</h1>
+            
+            <div class="quote">
+                <strong>Imran (Learn/Localization):</strong> "And there's a lot of hops, per se, lots of hops. You go to one of the ID which is VS code... then EV2 portal comes in... then you go to Azure portal and try to see what really happened"
+            </div>
+
+            <h2>Current User Journey</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div style="background: #3498db; color: white; padding: 10px; border-radius: 5px; min-width: 100px;">VS Code</div>
+                    <span>→</span>
+                    <div style="background: #27ae60; color: white; padding: 10px; border-radius: 5px; min-width: 100px;">DevOps</div>
+                    <span>→</span>
+                    <div style="background: #f39c12; color: white; padding: 10px; border-radius: 5px; min-width: 100px;">EV2 Portal</div>
+                    <span>→</span>
+                    <div style="background: #8e44ad; color: white; padding: 10px; border-radius: 5px; min-width: 100px;">Azure Portal</div>
+                </div>
+                <p style="color: #e74c3c; margin-top: 20px;"><strong>Problem:</strong> Too many context switches</p>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3>✅ Validated Approach</h3>
+                    <ul>
+                        <li>EV2 shows security-appropriate summary</li>
+                        <li>Azure Portal shows full details</li>
+                        <li>Clear handoff between portals</li>
+                        <li>Context preservation</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🔄 Future Opportunity</h3>
+                    <ul>
+                        <li>EV2 extension in Azure Portal</li>
+                        <li>Unified experience exploration</li>
+                        <li>RBAC integration challenges</li>
+                        <li>Long-term architectural consideration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Missing Information -->
+        <div class="slide">
+            <h1>Critical Missing Information Identified</h1>
+            
+            <div class="two-column">
+                <div>
+                    <h3>🚦 Status Indicators</h3>
+                    <div class="quote">
+                        <strong>Imran:</strong> "No, it failed. Succeed. Are you telling anything on those sides or no? Because only when I click I come to know"
+                    </div>
+                    <ul>
+                        <li>Success/failure icons needed</li>
+                        <li>Should be visible in summary</li>
+                        <li>Avoid click-to-discover pattern</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>📋 History Tracking</h3>
+                    <div class="quote">
+                        <strong>Imran:</strong> "I think one of the thing which just an ask I maybe but I'm I'll tell you a use case where what users like especially the engineers in the team want to do is also find out the history"
+                    </div>
+                    <ul>
+                        <li>WhatIf result history needed</li>
+                        <li>Operational workflow requirement</li>
+                        <li>Available in Azure Portal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>🔍 Hover Information</h3>
+                <div class="quote">
+                    <strong>Imran:</strong> "When I hover over those resources, will you be able to tell me the names?"
+                </div>
+                <p>Users want quick resource identification without full navigation</p>
+            </div>
+        </div>
+
+        <!-- Mental Models -->
+        <div class="slide">
+            <h1>User Mental Models Validated</h1>
+            
+            <div class="two-column">
+                <div>
+                    <h3>🔄 Diff-Like Expectations</h3>
+                    <div class="quote">
+                        <strong>Alex:</strong> "Like you can run a what if command and basically it'll inform you almost diff like... this is what's going to be deleted. This is what's going to be added."
+                    </div>
+                    <ul>
+                        <li>Before/after comparison expected</li>
+                        <li>Change categorization understood</li>
+                        <li>Preview vs. execution concept clear</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>⚙️ Tool Familiarity</h3>
+                    <div class="quote">
+                        <strong>David:</strong> "It's like Terraform plan, right or something. Is that a fair comparison?"
+                    </div>
+                    <ul>
+                        <li>Terraform plan comparison</li>
+                        <li>CloudFormation dry run analogy</li>
+                        <li>Strong existing mental models</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <strong>Design Implication:</strong> Leverage familiar patterns from other infrastructure tools
+            </div>
+        </div>
+
+        <!-- Recommendations High Priority -->
+        <div class="slide">
+            <h1>Recommendations: High Priority</h1>
+            
+            <div class="recommendation priority-high">
+                <h3>🎯 1. Implement Clickable Change Type Summaries</h3>
+                <p><strong>Evidence:</strong> Alex specifically requested this functionality</p>
+                <p><strong>Impact:</strong> Enables focused review of specific change types</p>
+            </div>
+
+            <div class="recommendation priority-high">
+                <h3>📝 2. Show Resource Names/Types in Summary</h3>
+                <p><strong>Evidence:</strong> Multiple users emphasized this need</p>
+                <p><strong>Impact:</strong> Critical for user confidence and verification</p>
+            </div>
+
+            <div class="recommendation priority-high">
+                <h3>✅ 3. Add Success/Failure Status Indicators</h3>
+                <p><strong>Evidence:</strong> Imran's specific feedback on missing information</p>
+                <p><strong>Impact:</strong> Reduces need for additional clicks</p>
+            </div>
+
+            <div class="recommendation priority-high">
+                <h3>⚠️ 4. Design Clear Delete Operation Visuals</h3>
+                <p><strong>Evidence:</strong> High user interest in delete operations</p>
+                <p><strong>Impact:</strong> Improves safety and reduces accidental deletions</p>
+            </div>
+        </div>
+
+        <!-- Recommendations Medium Priority -->
+        <div class="slide">
+            <h1>Recommendations: Medium Priority</h1>
+            
+            <div class="recommendation priority-medium">
+                <h3>🖱️ 1. Add Hover States for Resource Details</h3>
+                <p><strong>Evidence:</strong> Imran requested quick resource name access</p>
+                <p><strong>Impact:</strong> Faster information scanning</p>
+            </div>
+
+            <div class="recommendation priority-medium">
+                <h3>📚 2. Implement WhatIf Result History</h3>
+                <p><strong>Evidence:</strong> Operational workflow requirement</p>
+                <p><strong>Impact:</strong> Better audit trail and troubleshooting</p>
+            </div>
+
+            <div class="recommendation priority-medium">
+                <h3>🔗 3. Create Hyperlinks to Deployed Resources</h3>
+                <p><strong>Evidence:</strong> Alex's dependency tracking need</p>
+                <p><strong>Impact:</strong> Improved workflow for complex deployments</p>
+            </div>
+
+            <div class="recommendation priority-medium">
+                <h3>🚪 4. Design Cross-Portal Navigation Flows</h3>
+                <p><strong>Evidence:</strong> Portal hopping pain point</p>
+                <p><strong>Impact:</strong> Smoother user experience</p>
+            </div>
+        </div>
+
+        <!-- Design Patterns -->
+        <div class="slide">
+            <h1>Validated Design Patterns</h1>
+            
+            <div class="two-column">
+                <div>
+                    <h3>✅ Confirmed Effective</h3>
+                    <ul>
+                        <li><strong>Tab-based navigation</strong> - Intuitive and accepted</li>
+                        <li><strong>Progressive disclosure</strong> - Summary → Details → Portal</li>
+                        <li><strong>Change type categorization</strong> - Create/Delete/Modify understood</li>
+                        <li><strong>Security boundary preservation</strong> - EV2 summary, Azure detail</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>⚠️ Needs Refinement</h3>
+                    <ul>
+                        <li><strong>Resource information density</strong> - Show names/types</li>
+                        <li><strong>Status indicator placement</strong> - Visible in summary</li>
+                        <li><strong>Cross-portal handoff</strong> - Context preservation</li>
+                        <li><strong>History integration</strong> - Operational workflow support</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>❌ Patterns to Avoid</h3>
+                <ul>
+                    <li>Forcing users through multiple portals without clear navigation</li>
+                    <li>Hiding resource names/types in summary views</li>
+                    <li>Complex graphical views without proper zoom/filter capabilities</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Future Research -->
+        <div class="slide">
+            <h1>Future Research Opportunities</h1>
+            
+            <div class="three-column">
+                <div>
+                    <h3>🔬 Design Validation</h3>
+                    <ul>
+                        <li>Test visual treatments for delete operations</li>
+                        <li>Validate hover vs. click patterns</li>
+                        <li>Test status indicator designs</li>
+                        <li>Prototype clickable summaries</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>📊 Scale Testing</h3>
+                    <ul>
+                        <li>Tree view for large deployments</li>
+                        <li>50+ region deployment scenarios</li>
+                        <li>Information density optimization</li>
+                        <li>Performance with complex stacks</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>🔮 Strategic Research</h3>
+                    <ul>
+                        <li>EV2-Azure portal integration</li>
+                        <li>RBAC integration challenges</li>
+                        <li>Long-term experience vision</li>
+                        <li>Developer workflow optimization</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <strong>Next Steps:</strong> Create prototypes of high-priority recommendations for user testing
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="slide">
+            <h1>Immediate Next Steps</h1>
+            
+            <div style="text-align: center; margin: 40px 0;">
+                <h2>Recommended Implementation Order</h2>
+            </div>
+
+            <div class="three-column">
+                <div class="recommendation priority-high">
+                    <h3>🚀 Sprint 1</h3>
+                    <ul>
+                        <li>Clickable change type summaries</li>
+                        <li>Resource names in summary view</li>
+                        <li>Basic status indicators</li>
+                    </ul>
+                </div>
+                <div class="recommendation priority-medium">
+                    <h3>⚡ Sprint 2</h3>
+                    <ul>
+                        <li>Delete operation visual treatment</li>
+                        <li>Hover states for resources</li>
+                        <li>Cross-portal navigation</li>
+                    </ul>
+                </div>
+                <div class="recommendation priority-low">
+                    <h3>🔮 Sprint 3+</h3>
+                    <ul>
+                        <li>History tracking integration</li>
+                        <li>Advanced tree views</li>
+                        <li>Portal integration exploration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight" style="margin-top: 40px; text-align: center;">
+                <h3>🎯 Success Metrics</h3>
+                <p>Track user satisfaction, task completion rates, and reduction in portal hopping</p>
+            </div>
+        </div>
+
+        <!-- Thank You -->
+        <div class="slide title-slide">
+            <h1>Thank You</h1>
+            <h2>Questions & Discussion</h2>
+            <div style="margin-top: 50px;">
+                <p style="font-size: 1.2em;">Research provided clear direction for EV2 WhatIf integration</p>
+                <p style="font-size: 1em; margin-top: 30px;">Ready to move forward with high-priority recommendations</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="navigation">
+        Slide navigation: Use Page Up/Down or scroll
+    </div>
+
+    <script>
+        // Add simple keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            
+            // Find current slide in view
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    currentSlide = index;
+                }
+            });
+
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                if (currentSlide < slides.length - 1) {
+                    slides[currentSlide + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                if (currentSlide > 0) {
+                    slides[currentSlide - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+        // Print-friendly styling
+        window.addEventListener('beforeprint', function() {
+            document.body.style.background = 'white';
+        });
+    </script>
+</body>
+</html>

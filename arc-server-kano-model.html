@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arc Server AI Opportunities - KANO Model</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .chart-container {
+            padding: 40px;
+            position: relative;
+        }
+
+        .kano-chart {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #34495e;
+            position: relative;
+            background: linear-gradient(45deg, #f8f9fa 25%, transparent 25%),
+                        linear-gradient(-45deg, #f8f9fa 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #f8f9fa 75%),
+                        linear-gradient(-45deg, transparent 75%, #f8f9fa 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        .axis {
+            position: absolute;
+            background: #2c3e50;
+        }
+
+        .x-axis {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+        }
+
+        .y-axis {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+        }
+
+        .axis-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        .x-label {
+            bottom: -30px;
+            right: 10px;
+        }
+
+        .y-label {
+            top: 10px;
+            left: 10px;
+            transform: rotate(90deg);
+            transform-origin: left bottom;
+        }
+
+        .quadrant-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 14px;
+            color: #7f8c8d;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .q1 { top: 20px; right: 20px; }
+        .q2 { top: 20px; left: 20px; }
+        .q3 { bottom: 20px; left: 20px; }
+        .q4 { bottom: 20px; right: 20px; }
+
+        .opportunity {
+            position: absolute;
+            width: 120px;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            text-align: center;
+            border-left: 4px solid;
+        }
+
+        .opportunity:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            z-index: 10;
+        }
+
+        .quick-win { border-left-color: #2ecc71; }
+        .strategic { border-left-color: #e74c3c; }
+        .operational { border-left-color: #f39c12; }
+        .low-priority { border-left-color: #95a5a6; }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .legend h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .legend-item {
+            display: inline-block;
+            margin: 5px 15px 5px 0;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            border-left: 4px solid;
+        }
+
+        .legend-item.quick-win { border-left-color: #2ecc71; background: rgba(46, 204, 113, 0.1); }
+        .legend-item.strategic { border-left-color: #e74c3c; background: rgba(231, 76, 60, 0.1); }
+        .legend-item.operational { border-left-color: #f39c12; background: rgba(243, 156, 18, 0.1); }
+        .legend-item.low-priority { border-left-color: #95a5a6; background: rgba(149, 165, 166, 0.1); }
+
+        .controls {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .control-btn {
+            margin: 0 10px;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .control-btn:nth-child(1) { background: #34495e; } /* Show All - Dark blue */
+        .control-btn:nth-child(2) { background: #2ecc71; } /* Quick Wins - Green */
+        .control-btn:nth-child(3) { background: #e74c3c; } /* Strategic - Red */
+        .control-btn:nth-child(4) { background: #f39c12; } /* Operational - Orange */
+        .control-btn:nth-child(5) { background: #95a5a6; } /* Low Priority - Gray */
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-btn:nth-child(1):hover { background: #2c3e50; }
+        .control-btn:nth-child(2):hover { background: #27ae60; }
+        .control-btn:nth-child(3):hover { background: #c0392b; }
+        .control-btn:nth-child(4):hover { background: #e67e22; }
+        .control-btn:nth-child(5):hover { background: #7f8c8d; }
+
+        .tooltip {
+            position: absolute;
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 200px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .area-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 12px;
+            color: #2c3e50;
+            background: rgba(52, 152, 219, 0.1);
+            padding: 4px 8px;
+            border-radius: 3px;
+            border: 1px solid #3498db;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .area-label:hover {
+            background: rgba(52, 152, 219, 0.2);
+            transform: scale(1.05);
+        }
+
+        .area-label.active {
+            background: #3498db;
+            color: white;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        }
+
+        .area1 { top: 5%; left: 20%; }
+        .area2 { top: 5%; left: 5%; }
+        .area3 { top: 5%; right: 5%; }
+        .area4 { top: 45%; right: 5%; }
+        .area5 { top: 45%; left: 20%; }
+
+        .opportunity.highlighted {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        .opportunity.dimmed {
+            opacity: 0.2;
+            transform: scale(0.9);
+        }
+
+        .drill-down-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .drill-down-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .drill-down-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .drill-down-body {
+            padding: 30px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            z-index: 2001;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .scenario-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .scenario-section h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .scenario-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+        }
+
+        .scenario-item h5 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .scenario-item p {
+            color: #5a6c7d;
+            font-size: 13px;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .current-usage {
+            background: #e8f5e8;
+            border-left-color: #2ecc71;
+        }
+
+        .ai-opportunity {
+            background: #fff3cd;
+            border-left-color: #f39c12;
+        }
+
+        .future-scenario {
+            background: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Arc Server AI Opportunities</h1>
+            <p>KANO Model Analysis - Jobs to be Done (JTBD) Impact vs Effort Matrix</p>
+        </div>
+
+        <div class="chart-container">
+            <!-- Summary Table -->
+            <div style="background: #f8f9fa; padding: 20px; margin-bottom: 30px; border-radius: 10px;">
+                <h3 style="color: #2c3e50; margin-bottom: 15px;">Arc Server Areas Summary</h3>
+                <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <thead>
+                        <tr style="background: #34495e; color: white;">
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Area</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Key JTBD / Pain Points</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">AI Opportunity</th>
+                            <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Impact</th>
+                            <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Effort</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: white;">
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Script Execution</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Execute scripts across Arc servers; manage parameters; track execution</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Autofill script parameters, syntax validation & impact analysis, automated notifications</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #e74c3c; font-weight: bold;">High</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #f39c12; font-weight: bold;">Moderate</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Monitoring & Ops</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Monitor distributed servers; manage alerts; optimize costs</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Intelligent alerting & anomaly detection, cost optimization, role-specific AI assistance</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #e74c3c; font-weight: bold;">High</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #f39c12; font-weight: bold;">Moderate</td>
+                        </tr>
+                        <tr style="background: white;">
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Security & Compliance</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Apply consistent security baselines; manage drift; rollback changes</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">AI-driven compliance prompts, automated rollbacks, predictive anomaly detection</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #e74c3c; font-weight: bold;">High</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #e74c3c; font-weight: bold;">High</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Resource Management</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Track hybrid resources; automate configuration; ensure governance</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">AI for inventory reconciliation, guided workflows, predictive lifecycle insights</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #f39c12; font-weight: bold;">Moderate</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #e74c3c; font-weight: bold;">High</td>
+                        </tr>
+                        <tr style="background: white;">
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Identity & Access</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Assign RBAC roles; enforce MFA; maintain compliance</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">AI guidance for role assignment, MFA status checks, compliance alerts</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #f39c12; font-weight: bold;">Moderate</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: center; color: #f39c12; font-weight: bold;">Moderate</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="controls">
+                <button class="control-btn active" onclick="showAll()">Show All</button>
+                <button class="control-btn" onclick="filterByType('quick-win')">Quick Wins</button>
+                <button class="control-btn" onclick="filterByType('strategic')">Strategic Investments</button>
+                <button class="control-btn" onclick="filterByType('operational')">Operational Efficiency</button>
+                <button class="control-btn" onclick="filterByType('low-priority')">Low Priority</button>
+            </div>
+
+            <div class="kano-chart" id="kanoChart">
+                <!-- Axes -->
+                <div class="axis x-axis"></div>
+                <div class="axis y-axis"></div>
+                
+                <!-- Axis Labels -->
+                <div class="axis-label x-label">Effort →</div>
+                <div class="axis-label y-label">↑ Impact</div>
+                
+                <!-- Quadrant Labels -->
+                <div class="quadrant-label q1">High Impact<br>High Effort</div>
+                <div class="quadrant-label q2">High Impact<br>Low Effort</div>
+                <div class="quadrant-label q3">Low Impact<br>Low Effort</div>
+                <div class="quadrant-label q4">Low Impact<br>High Effort</div>
+
+                <!-- Arc Server Area Labels -->
+                <div class="area-label area1" data-area="area1">Area 1: Script Execution</div>
+                <div class="area-label area2" data-area="area2">Area 2: Monitoring & Ops</div>
+                <div class="area-label area3" data-area="area3">Area 3: Security & Compliance</div>
+                <div class="area-label area4" data-area="area4">Area 4: Resource Management</div>
+                <div class="area-label area5" data-area="area5">Area 5: Identity & Access</div>
+
+                <!-- Area Highlight Boxes - Updated to span multiple quadrants -->
+                <div class="area-highlight-box" id="highlight-area1" style="top: 10%; left: 10%; width: 45%; height: 35%;"></div>
+                <div class="area-highlight-box" id="highlight-area2" style="top: 15%; left: 5%; width: 35%; height: 65%;"></div>
+                <div class="area-highlight-box" id="highlight-area3" style="top: 5%; right: 5%; width: 35%; height: 75%;"></div>
+                <div class="area-highlight-box" id="highlight-area4" style="top: 35%; left: 30%; width: 50%; height: 45%;"></div>
+                <div class="area-highlight-box" id="highlight-area5" style="top: 45%; left: 5%; width: 45%; height: 50%;"></div>
+
+                <!-- Arc Server Area 1: Script Execution - Distributed across quadrants -->
+                <div class="opportunity operational" style="top: 15%; left: 25%;" data-area="area1"
+                     data-title="Execute Scripts Across Arc Servers" 
+                     data-description="Area: Script Execution | JTBD: Execute scripts across Arc servers | AI: Autofill script parameters based on context and history | High Impact, Moderate Effort">
+                    Execute Scripts<br>Across Servers
+                </div>
+
+                <div class="opportunity quick-win" style="top: 35%; left: 15%;" data-area="area1"
+                     data-title="Manage Script Parameters" 
+                     data-description="Area: Script Execution | JTBD: Manage parameters efficiently | AI: Intelligent parameter suggestions and validation | High Impact, Low Effort - Quick Win">
+                    Manage Script<br>Parameters
+                </div>
+
+                <div class="opportunity strategic" style="top: 25%; right: 35%;" data-area="area1"
+                     data-title="Track Script Execution" 
+                     data-description="Area: Script Execution | JTBD: Track execution status and results | AI: Automated notifications and impact analysis | High Impact, High Effort - Complex tracking">
+                    Track Script<br>Execution
+                </div>
+
+                <!-- Arc Server Area 2: Monitoring & Operations - Mixed positioning -->
+                <div class="opportunity quick-win" style="top: 20%; left: 10%;" data-area="area2"
+                     data-title="Monitor Distributed Servers" 
+                     data-description="Area: Monitoring & Ops | JTBD: Monitor distributed servers effectively | AI: Intelligent anomaly detection and alerting | High Impact, Low Effort - Leverages existing telemetry">
+                    Monitor Distributed<br>Servers
+                </div>
+
+                <div class="opportunity operational" style="top: 30%; left: 30%;" data-area="area2"
+                     data-title="Manage Alerts" 
+                     data-description="Area: Monitoring & Ops | JTBD: Manage alerts efficiently | AI: Smart alert prioritization and noise reduction | High Impact, Moderate Effort">
+                    Manage<br>Alerts
+                </div>
+
+                <div class="opportunity low-priority" style="bottom: 30%; left: 15%;" data-area="area2"
+                     data-title="Optimize Costs" 
+                     data-description="Area: Monitoring & Ops | JTBD: Optimize operational costs | AI: Cost optimization recommendations | Low Impact, Low Effort - Basic recommendations">
+                    Optimize<br>Costs
+                </div>
+
+                <!-- Arc Server Area 3: Security & Compliance - High effort but varied impact -->
+                <div class="opportunity strategic" style="top: 10%; right: 25%;" data-area="area3"
+                     data-title="Apply Security Baselines" 
+                     data-description="Area: Security & Compliance | JTBD: Apply consistent security baselines | AI: AI-driven compliance prompts | High Impact, High Effort - Critical security requirement">
+                    Apply Security<br>Baselines
+                </div>
+
+                <div class="opportunity strategic" style="top: 15%; right: 10%;" data-area="area3"
+                     data-title="Manage Configuration Drift" 
+                     data-description="Area: Security & Compliance | JTBD: Manage drift and maintain consistency | AI: Predictive anomaly detection | High Impact, High Effort - Complex detection">
+                    Manage Config<br>Drift
+                </div>
+
+                <div class="opportunity low-priority" style="bottom: 25%; right: 30%;" data-area="area3"
+                     data-title="Rollback Changes" 
+                     data-description="Area: Security & Compliance | JTBD: Rollback changes when needed | AI: Automated rollbacks | Low Impact, High Effort - Edge case handling">
+                    Rollback<br>Changes
+                </div>
+
+                <!-- Arc Server Area 4: Resource Management - Strategic spread -->
+                <div class="opportunity strategic" style="top: 45%; right: 20%;" data-area="area4"
+                     data-title="Track Hybrid Resources" 
+                     data-description="Area: Resource Management | JTBD: Track hybrid resources across environments | AI: AI for inventory reconciliation | High Impact, High Effort - Complex discovery">
+                    Track Hybrid<br>Resources
+                </div>
+
+                <div class="opportunity quick-win" style="top: 40%; left: 35%;" data-area="area4"
+                     data-title="Automate Configuration" 
+                     data-description="Area: Resource Management | JTBD: Automate configuration processes | AI: Guided workflows for onboarding | High Impact, Low Effort - Template-based automation">
+                    Automate<br>Configuration
+                </div>
+
+                <div class="opportunity operational" style="top: 55%; right: 15%;" data-area="area4"
+                     data-title="Ensure Governance" 
+                     data-description="Area: Resource Management | JTBD: Ensure governance and compliance | AI: Predictive lifecycle insights | Moderate Impact, High Effort - Policy enforcement">
+                    Ensure<br>Governance
+                </div>
+
+                <!-- Arc Server Area 5: Identity & Access - Balanced distribution -->
+                <div class="opportunity operational" style="top: 50%; left: 25%;" data-area="area5"
+                     data-title="Assign RBAC Roles" 
+                     data-description="Area: Identity & Access | JTBD: Assign RBAC roles appropriately | AI: AI guidance for role assignment | Moderate Impact, Moderate Effort">
+                    Assign RBAC<br>Roles
+                </div>
+
+                <div class="opportunity quick-win" style="top: 65%; left: 10%;" data-area="area5"
+                     data-title="Enforce MFA" 
+                     data-description="Area: Identity & Access | JTBD: Enforce MFA policies | AI: MFA status checks | High Impact, Low Effort - Policy automation">
+                    Enforce<br>MFA
+                </div>
+
+                <div class="opportunity low-priority" style="bottom: 15%; left: 35%;" data-area="area5"
+                     data-title="Maintain Identity Compliance" 
+                     data-description="Area: Identity & Access | JTBD: Maintain compliance standards | AI: Compliance alerts | Low Impact, Low Effort - Automated reporting">
+                    Maintain Identity<br>Compliance
+                </div>
+            </div>
+
+            <div class="legend">
+                <h3>Arc Server AI Opportunity Prioritization</h3>
+                <div class="legend-item basic">Basic Needs - Essential capabilities for Arc server operations</div>
+                <div class="legend-item performance">Performance - Linear value improvement for operational efficiency</div>
+                <div class="legend-item excitement">Excitement - Innovative features that delight users and differentiate</div>
+                <div class="legend-item indifferent">Indifferent - Nice-to-have features with limited impact</div>
+                
+                <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px; border-left: 4px solid #3498db;">
+                    <strong>Priority Recommendations:</strong><br>
+                    • <strong>Start with Quick Wins:</strong> Script Execution Intelligence & Intelligent Monitoring (High Impact, Moderate Effort)<br>
+                    • <strong>Plan for Major Investment:</strong> Security Compliance AI (High Impact, High Effort)<br>
+                    • <strong>Consider Strategic Value:</strong> Hybrid Resource Management & Identity Access Intelligence
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- Drill-down Modal -->
+    <div class="drill-down-modal" id="drillDownModal">
+        <div class="drill-down-content">
+            <div class="drill-down-header">
+                <button class="close-btn" onclick="closeDrillDown()">&times;</button>
+                <h2 id="modalTitle">Opportunity Details</h2>
+                <p id="modalSubtitle">Detailed analysis and scenarios</p>
+            </div>
+            <div class="drill-down-body" id="modalBody">
+                <!-- Content will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const opportunities = document.querySelectorAll('.opportunity');
+        const tooltip = document.getElementById('tooltip');
+        const areaLabels = document.querySelectorAll('.area-label');
+        let currentFilter = 'all';
+        let currentAreaHighlight = null;
+
+        // Area highlighting functionality
+        function highlightArea(areaId) {
+            // Clear previous highlights
+            clearAreaHighlight();
+            
+            if (currentAreaHighlight === areaId) {
+                // If clicking the same area, clear highlight
+                currentAreaHighlight = null;
+                return;
+            }
+            
+            currentAreaHighlight = areaId;
+            
+            // Highlight the area label
+            const areaLabel = document.querySelector(`[data-area="${areaId}"]`);
+            if (areaLabel) {
+                areaLabel.classList.add('active');
+            }
+            
+            // Show area highlight box
+            const highlightBox = document.getElementById(`highlight-${areaId}`);
+            if (highlightBox) {
+                highlightBox.style.display = 'block';
+            }
+            
+            // Highlight relevant opportunities and dim others
+            opportunities.forEach(opp => {
+                const oppArea = opp.getAttribute('data-area');
+                if (oppArea === areaId) {
+                    opp.classList.add('highlighted');
+                    opp.classList.remove('dimmed');
+                } else {
+                    opp.classList.add('dimmed');
+                    opp.classList.remove('highlighted');
+                }
+            });
+            
+            // Update the legend with area-specific information
+            updateAreaInfo(areaId);
+        }
+        
+        function clearAreaHighlight() {
+            // Remove active state from all area labels
+            areaLabels.forEach(label => label.classList.remove('active'));
+            
+            // Hide all highlight boxes
+            document.querySelectorAll('.area-highlight-box').forEach(box => {
+                box.style.display = 'none';
+            });
+            
+            // Remove highlighting from all opportunities
+            opportunities.forEach(opp => {
+                opp.classList.remove('highlighted', 'dimmed');
+            });
+            
+            // Reset legend
+            resetAreaInfo();
+        }
+        
+        function updateAreaInfo(areaId) {
+            const areaInfo = {
+                'area1': {
+                    name: 'Script Execution',
+                    description: 'Mixed positioning - Core execution is moderate effort, parameter management is a quick win, but comprehensive tracking requires high effort',
+                    jobs: ['Execute scripts (High Impact, Moderate Effort)', 'Manage parameters (High Impact, Low Effort - Quick Win)', 'Track execution (High Impact, High Effort - Complex)']
+                },
+                'area2': {
+                    name: 'Monitoring & Operations', 
+                    description: 'Varied impact and effort - Monitoring leverages existing data (quick win), alert management needs effort, cost optimization has limited impact',
+                    jobs: ['Monitor servers (High Impact, Low Effort - Quick Win)', 'Manage alerts (High Impact, Moderate Effort)', 'Optimize costs (Low Impact, Low Effort)']
+                },
+                'area3': {
+                    name: 'Security & Compliance',
+                    description: 'High effort area with varied impact - Security baselines and drift management are critical, but rollback automation has limited value',
+                    jobs: ['Apply baselines (High Impact, High Effort - Critical)', 'Manage drift (High Impact, High Effort - Complex)', 'Rollback changes (Low Impact, High Effort - Edge case)']
+                },
+                'area4': {
+                    name: 'Resource Management',
+                    description: 'Strategic mix - Resource tracking is complex, configuration automation can be template-based (easier), governance requires ongoing effort',
+                    jobs: ['Track resources (High Impact, High Effort - Complex discovery)', 'Automate config (High Impact, Low Effort - Template-based)', 'Ensure governance (Moderate Impact, High Effort)']
+                },
+                'area5': {
+                    name: 'Identity & Access',
+                    description: 'Balanced distribution - RBAC assignment needs judgment, MFA enforcement can be automated, compliance monitoring is routine',
+                    jobs: ['Assign RBAC (Moderate Impact, Moderate Effort)', 'Enforce MFA (High Impact, Low Effort - Policy automation)', 'Maintain compliance (Low Impact, Low Effort - Automated reporting)']
+                }
+            };
+            
+            const info = areaInfo[areaId];
+            if (info) {
+                const legend = document.querySelector('.legend');
+                const jobsList = info.jobs.map(job => `• ${job}`).join('<br>');
+                legend.innerHTML = `
+                    <h3>Focus Area: ${info.name}</h3>
+                    <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #3498db; margin-bottom: 15px;">
+                        <strong>Strategy:</strong> ${info.description}
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                        <strong>Key Jobs to be Done:</strong><br>
+                        ${jobsList}
+                    </div>
+                    <div style="margin-top: 15px; text-align: center;">
+                        <button onclick="clearAreaHighlight()" style="padding: 8px 16px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Clear Highlight
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        function resetAreaInfo() {
+            const legend = document.querySelector('.legend');
+            legend.innerHTML = `
+                <h3>Arc Server AI Opportunity Prioritization</h3>
+                <div class="legend-item quick-win">Quick Wins - High impact, low effort opportunities for immediate implementation</div>
+                <div class="legend-item strategic">Strategic Investments - High impact, high effort projects requiring significant planning</div>
+                <div class="legend-item operational">Operational Efficiency - Moderate impact improvements to daily operations</div>
+                <div class="legend-item low-priority">Low Priority - Limited impact initiatives that can be deferred</div>
+                
+                <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px; border-left: 4px solid #3498db;">
+                    <strong>Interactive Features:</strong><br>
+                    • <strong>Click area labels</strong> to highlight specific Arc Server areas and their jobs to be done<br>
+                    • <strong>Hover opportunities</strong> for detailed descriptions<br>
+                    • <strong>Use filters</strong> to focus on implementation priority
+                </div>
+                
+                <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px; border-left: 4px solid #2ecc71;">
+                    <strong>Implementation Roadmap:</strong><br>
+                    • <strong>Phase 1 (0-6 months):</strong> <span style="color: #2ecc71; font-weight: bold;">Quick Wins</span> - Parameter management, MFA enforcement, server monitoring<br>
+                    • <strong>Phase 2 (6-18 months):</strong> <span style="color: #f39c12; font-weight: bold;">Operational Efficiency</span> - Alert management, RBAC assignment, governance<br>
+                    • <strong>Phase 3 (18+ months):</strong> <span style="color: #e74c3c; font-weight: bold;">Strategic Investments</span> - Security compliance, resource tracking, execution tracking
+                </div>
+            `;
+        }
+
+        // Add hover events for tooltips
+        opportunities.forEach(opp => {
+            opp.addEventListener('mouseenter', (e) => {
+                const title = e.target.getAttribute('data-title');
+                const description = e.target.getAttribute('data-description');
+                tooltip.innerHTML = `<strong>${title}</strong><br>${description}`;
+                tooltip.style.display = 'block';
+            });
+
+            opp.addEventListener('mousemove', (e) => {
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY + 10 + 'px';
+            });
+
+            opp.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        });
+
+        function showAll() {
+            currentFilter = 'all';
+            currentAreaHighlight = null;
+            updateButtons();
+            clearAreaHighlight();
+            opportunities.forEach(opp => {
+                opp.style.display = 'block';
+                opp.style.opacity = '1';
+            });
+        }
+
+        function filterByType(type) {
+            currentFilter = type;
+            currentAreaHighlight = null;
+            updateButtons();
+            clearAreaHighlight();
+            opportunities.forEach(opp => {
+                if (opp.classList.contains(type)) {
+                    opp.style.display = 'block';
+                    opp.style.opacity = '1';
+                } else {
+                    opp.style.opacity = '0.2';
+                }
+            });
+        }
+
+        function updateButtons() {
+            const buttons = document.querySelectorAll('.control-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (currentFilter === 'all') {
+                buttons[0].classList.add('active');
+            } else {
+                const filterButtons = {
+                    'quick-win': buttons[1],
+                    'strategic': buttons[2],
+                    'operational': buttons[3],
+                    'low-priority': buttons[4]
+                };
+                if (filterButtons[currentFilter]) {
+                    filterButtons[currentFilter].classList.add('active');
+                }
+            }
+        }
+
+        // Detailed scenario data for drill-down
+        const scenarioData = {
+            'Monitor Distributed Servers': {
+                title: 'Monitor Distributed Servers',
+                subtitle: 'AI-powered monitoring and anomaly detection across Arc server infrastructure',
+                scenarios: {
+                    'Current Usage': [
+                        {
+                            title: 'Manual Log Analysis',
+                            description: 'Operations teams manually review server logs, performance metrics, and health status across 100+ Arc servers daily, taking 3-4 hours per analyst.'
+                        },
+                        {
+                            title: 'Basic Alerting Rules',
+                            description: 'Simple threshold-based alerts (CPU > 80%, Memory > 90%) generate 200+ alerts daily with 60% false positives, causing alert fatigue.'
+                        },
+                        {
+                            title: 'Reactive Problem Solving',
+                            description: 'Issues are discovered after users report problems or during scheduled health checks, leading to average 45-minute MTTR.'
+                        }
+                    ],
+                    'AI Opportunities': [
+                        {
+                            title: 'Intelligent Anomaly Detection',
+                            description: 'ML models learn normal behavior patterns and detect subtle anomalies 30-60 minutes before traditional alerts, reducing MTTR by 70%.'
+                        },
+                        {
+                            title: 'Predictive Health Scoring',
+                            description: 'AI generates health scores for each server combining metrics, logs, and historical patterns to predict degradation 2-4 hours in advance.'
+                        },
+                        {
+                            title: 'Smart Alert Correlation',
+                            description: 'AI correlates related alerts across servers and services, reducing alert volume by 80% and grouping related issues automatically.'
+                        },
+                        {
+                            title: 'Natural Language Insights',
+                            description: 'AI summarizes complex monitoring data into plain English: "Server cluster in East region showing memory pressure due to increased batch processing workload."'
+                        }
+                    ],
+                    'Future Scenarios': [
+                        {
+                            title: 'Autonomous Monitoring Assistant',
+                            description: 'AI continuously monitors all Arc servers, automatically investigates anomalies, and provides context-aware recommendations to operations teams.'
+                        },
+                        {
+                            title: 'Proactive Capacity Planning',
+                            description: 'AI analyzes usage trends and predicts when servers will need scaling, automatically suggesting optimal resource allocation 1-2 weeks ahead.'
+                        },
+                        {
+                            title: 'Self-Healing Infrastructure',
+                            description: 'Advanced AI automatically resolves common issues like stuck processes, disk cleanup, and service restarts without human intervention.'
+                        }
+                    ]
+                }
+            },
+            'Manage Script Parameters': {
+                title: 'Manage Script Parameters',
+                subtitle: 'Intelligent automation for script parameter management and validation',
+                scenarios: {
+                    'Current Usage': [
+                        {
+                            title: 'Manual Parameter Entry',
+                            description: 'Administrators manually enter 20-30 parameters per script execution, referring to documentation and previous runs, taking 10-15 minutes per execution.'
+                        },
+                        {
+                            title: 'Copy-Paste from Previous Runs',
+                            description: 'Teams maintain Excel sheets or text files with parameter sets, leading to version control issues and occasional parameter mismatches.'
+                        },
+                        {
+                            title: 'Trial-and-Error Validation',
+                            description: 'Parameter validation happens during script execution, causing failures 15-20% of the time and requiring reruns with corrected parameters.'
+                        }
+                    ],
+                    'AI Opportunities': [
+                        {
+                            title: 'Context-Aware Autofill',
+                            description: 'AI analyzes target servers, previous successful runs, and current environment to automatically suggest optimal parameter values with 95% accuracy.'
+                        },
+                        {
+                            title: 'Intelligent Parameter Validation',
+                            description: 'Pre-execution validation using AI that understands parameter relationships, server capabilities, and potential conflicts before script runs.'
+                        },
+                        {
+                            title: 'Smart Parameter Templates',
+                            description: 'AI creates dynamic parameter templates based on server types, environments, and common use cases, reducing manual input by 80%.'
+                        },
+                        {
+                            title: 'Natural Language Parameter Input',
+                            description: 'Users describe what they want to accomplish: "Update all web servers in production to latest security patch" and AI translates to specific parameters.'
+                        }
+                    ],
+                    'Future Scenarios': [
+                        {
+                            title: 'Conversational Script Management',
+                            description: 'AI assistant handles entire script execution workflow through natural conversation: "Please update the database servers with last night\'s backup."'
+                        },
+                        {
+                            title: 'Predictive Parameter Optimization',
+                            description: 'AI learns from execution outcomes and continuously optimizes parameter recommendations to improve success rates and performance.'
+                        },
+                        {
+                            title: 'Zero-Touch Parameter Management',
+                            description: 'For routine operations, AI automatically determines and executes scripts with optimal parameters based on current system state and historical patterns.'
+                        }
+                    ]
+                }
+            },
+            'Execute Scripts Across Servers': {
+                title: 'Execute Scripts Across Arc Servers',
+                subtitle: 'Streamlined script execution with AI-powered orchestration and monitoring',
+                scenarios: {
+                    'Current Usage': [
+                        {
+                            title: 'Sequential Manual Execution',
+                            description: 'Administrators execute scripts one server at a time or in small batches, monitoring each execution manually. Takes 2-3 hours for 50+ servers.'
+                        },
+                        {
+                            title: 'Custom PowerShell/Bash Scripts',
+                            description: 'Teams maintain complex orchestration scripts for multi-server operations, requiring specialized knowledge and frequent debugging.'
+                        },
+                        {
+                            title: 'Limited Execution Visibility',
+                            description: 'Basic logging shows success/failure but limited insight into execution progress, resource impact, or optimization opportunities.'
+                        }
+                    ],
+                    'AI Opportunities': [
+                        {
+                            title: 'Intelligent Execution Orchestration',
+                            description: 'AI optimizes execution order based on server dependencies, load patterns, and resource availability to minimize impact and maximize success rate.'
+                        },
+                        {
+                            title: 'Dynamic Batch Sizing',
+                            description: 'AI adjusts batch sizes in real-time based on server performance, network conditions, and execution success rates to optimize throughput.'
+                        },
+                        {
+                            title: 'Automated Rollback Planning',
+                            description: 'AI creates rollback plans before execution and can automatically revert changes if anomalies are detected during or after script execution.'
+                        },
+                        {
+                            title: 'Resource-Aware Scheduling',
+                            description: 'AI schedules script execution during optimal windows based on server workload patterns, maintenance windows, and business impact analysis.'
+                        }
+                    ],
+                    'Future Scenarios': [
+                        {
+                            title: 'Intent-Based Script Execution',
+                            description: 'Users specify desired outcomes ("Ensure all servers have latest security updates") and AI automatically determines optimal execution strategy.'
+                        },
+                        {
+                            title: 'Autonomous Execution Management',
+                            description: 'AI handles complex multi-step operations across server fleets, automatically adapting to failures and optimizing execution paths in real-time.'
+                        },
+                        {
+                            title: 'Predictive Execution Impact',
+                            description: 'AI predicts execution impact on system performance and user experience, suggesting optimal timing and approach for minimal disruption.'
+                        }
+                    ]
+                }
+            }
+            // Add more opportunities as needed...
+        };
+
+        // Drill-down functionality
+        function showDrillDown(opportunityTitle) {
+            const data = scenarioData[opportunityTitle];
+            if (!data) {
+                // Fallback for opportunities without detailed data
+                showGenericDrillDown(opportunityTitle);
+                return;
+            }
+
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalSubtitle').textContent = data.subtitle;
+            
+            let bodyContent = '';
+            
+            Object.keys(data.scenarios).forEach(sectionTitle => {
+                const scenarios = data.scenarios[sectionTitle];
+                const sectionClass = sectionTitle.toLowerCase().replace(' ', '-');
+                
+                bodyContent += `
+                    <div class="scenario-section">
+                        <h4>${sectionTitle}</h4>
+                `;
+                
+                scenarios.forEach(scenario => {
+                    bodyContent += `
+                        <div class="scenario-item ${sectionClass}">
+                            <h5>${scenario.title}</h5>
+                            <p>${scenario.description}</p>
+                        </div>
+                    `;
+                });
+                
+                bodyContent += '</div>';
+            });
+            
+            document.getElementById('modalBody').innerHTML = bodyContent + `
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <button onclick="closeDrillDown()" style="padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+                        ← Back to Overview
+                    </button>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #f39c12; border-radius: 5px; font-size: 12px;">
+                    <strong>📋 Data Sources & Disclaimer:</strong><br>
+                    The detailed scenarios above are <strong>synthesized examples</strong> based on common IT operations patterns and industry best practices, not specific Arc Server user research. 
+                    For accurate current usage data and specific AI implementation details, please consult:
+                    <ul style="margin: 8px 0; padding-left: 20px;">
+                        <li>Arc Server telemetry and usage analytics</li>
+                        <li>Customer feedback and support tickets</li>
+                        <li>Field engineering reports and case studies</li>
+                        <li>Product team user research and interviews</li>
+                    </ul>
+                    This visualization is intended as a <strong>strategic planning framework</strong> that should be validated with real data.
+                </div>
+            `;
+            document.getElementById('drillDownModal').style.display = 'flex';
+        }
+
+        function showGenericDrillDown(opportunityTitle) {
+            document.getElementById('modalTitle').textContent = opportunityTitle;
+            document.getElementById('modalSubtitle').textContent = 'Detailed analysis coming soon';
+            
+            document.getElementById('modalBody').innerHTML = `
+                <div class="scenario-section">
+                    <h4>Analysis in Progress</h4>
+                    <div class="scenario-item">
+                        <h5>Detailed Scenarios</h5>
+                        <p>We're currently developing detailed scenario analysis for this opportunity. Please check back soon for comprehensive current usage patterns, AI opportunities, and future scenarios.</p>
+                    </div>
+                    <div class="scenario-item">
+                        <h5>Request Information</h5>
+                        <p>If you need specific information about this opportunity, please reach out to the Arc Server AI strategy team for current research and implementation details.</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                    <button onclick="closeDrillDown()" style="padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;">
+                        ← Back to Overview
+                    </button>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #f39c12; border-radius: 5px; font-size: 12px;">
+                    <strong>📋 Data Sources & Disclaimer:</strong><br>
+                    The scenarios shown are <strong>illustrative examples</strong> based on common IT operations patterns. 
+                    For specific Arc Server data and validated AI opportunities, please consult official product documentation and user research.
+                </div>
+            `;
+            
+            document.getElementById('drillDownModal').style.display = 'flex';
+        }
+
+        function closeDrillDown() {
+            const modal = document.getElementById('drillDownModal');
+            modal.style.display = 'none';
+            console.log('Modal closed'); // Debug log
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('drillDownModal').addEventListener('click', (e) => {
+            if (e.target.id === 'drillDownModal') {
+                closeDrillDown();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('drillDownModal').style.display === 'flex') {
+                closeDrillDown();
+            }
+        });
+
+        // Ensure close button works
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeBtn = document.querySelector('.close-btn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeDrillDown);
+            }
+            
+            // Add click events for drilling down into opportunities
+            opportunities.forEach(opp => {
+                opp.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const title = e.currentTarget.getAttribute('data-title');
+                    showDrillDown(title);
+                });
+            });
+            
+            // Add click events for area labels
+            const areaLabels = document.querySelectorAll('.area-label');
+            areaLabels.forEach(label => {
+                label.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    const areaId = e.currentTarget.getAttribute('data-area');
+                    highlightArea(areaId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

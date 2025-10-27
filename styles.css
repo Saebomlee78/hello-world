@@ -1,0 +1,624 @@
+/* Azure Portal Theme */
+:root {
+    --azure-blue: #0078d4;
+    --azure-dark-blue: #106ebe;
+    --azure-light-blue: #deecf9;
+    --azure-background: #faf9f8;
+    --azure-surface: #ffffff;
+    --azure-border: #edebe9;
+    --azure-text-primary: #323130;
+    --azure-text-secondary: #605e5c;
+    --azure-text-tertiary: #8a8886;
+    --azure-header-bg: #ffffff;
+    --azure-sidebar: #f8f9fa;
+    --graph-node-color: #0078d4;
+    --graph-link-color: #d0d7de;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--azure-background);
+    color: var(--azure-text-primary);
+    overflow-x: hidden;
+}
+
+/* Azure Portal Header */
+.azure-header {
+    background-color: var(--azure-header-bg);
+    border-bottom: 1px solid var(--azure-border);
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.hamburger-menu {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--azure-text-primary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.hamburger-menu:hover {
+    background-color: var(--azure-light-blue);
+}
+
+.azure-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--azure-blue);
+}
+
+.azure-logo i {
+    font-size: 20px;
+}
+
+.header-center {
+    flex: 1;
+    max-width: 600px;
+    margin: 0 32px;
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--azure-text-tertiary);
+}
+
+.search-box input {
+    width: 100%;
+    height: 32px;
+    padding: 0 16px 0 36px;
+    border: 1px solid var(--azure-border);
+    border-radius: 4px;
+    background-color: var(--azure-surface);
+    font-size: 14px;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--azure-blue);
+    box-shadow: 0 0 0 1px var(--azure-blue);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--azure-text-primary);
+    font-size: 16px;
+}
+
+.header-btn:hover {
+    background-color: var(--azure-light-blue);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.user-profile:hover {
+    background-color: var(--azure-light-blue);
+}
+
+.user-profile i {
+    font-size: 20px;
+    color: var(--azure-blue);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: var(--azure-surface);
+    padding: 8px 24px;
+    border-bottom: 1px solid var(--azure-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--azure-text-secondary);
+}
+
+.breadcrumb-item {
+    cursor: pointer;
+}
+
+.breadcrumb-item:hover {
+    color: var(--azure-blue);
+}
+
+.breadcrumb-item.current {
+    color: var(--azure-text-primary);
+    font-weight: 600;
+}
+
+.breadcrumb i {
+    font-size: 10px;
+    color: var(--azure-text-tertiary);
+}
+
+/* Main Content */
+.main-content {
+    padding: 24px;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-title i {
+    font-size: 24px;
+    color: var(--azure-blue);
+}
+
+.page-title h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.btn-icon {
+    background: none;
+    border: 1px solid var(--azure-border);
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--azure-text-primary);
+}
+
+.btn-icon:hover {
+    background-color: var(--azure-light-blue);
+    border-color: var(--azure-blue);
+}
+
+/* Query Section */
+.query-section {
+    background-color: var(--azure-surface);
+    border: 1px solid var(--azure-border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.query-tabs {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--azure-border);
+    background-color: var(--azure-sidebar);
+    border-radius: 8px 8px 0 0;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: var(--azure-surface);
+    border: 1px solid var(--azure-border);
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    margin-top: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tab.active {
+    background-color: var(--azure-surface);
+    border-color: var(--azure-blue);
+}
+
+.tab-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--azure-text-tertiary);
+}
+
+.tab-add {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--azure-text-tertiary);
+    padding: 8px;
+    margin-top: 8px;
+}
+
+.query-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+}
+
+.btn-primary {
+    background-color: var(--azure-blue);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    background-color: var(--azure-dark-blue);
+}
+
+.btn-secondary {
+    background: none;
+    border: 1px solid var(--azure-border);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--azure-text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--azure-light-blue);
+    border-color: var(--azure-blue);
+}
+
+.subscription-info {
+    font-size: 14px;
+    color: var(--azure-text-secondary);
+}
+
+.toolbar-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+/* Results Section */
+.results-section {
+    background-color: var(--azure-surface);
+    border: 1px solid var(--azure-border);
+    border-radius: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.results-tabs {
+    display: flex;
+    padding: 0 16px;
+    background-color: var(--azure-sidebar);
+    border-bottom: 1px solid var(--azure-border);
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--azure-text-secondary);
+    border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active {
+    color: var(--azure-blue);
+    border-bottom-color: var(--azure-blue);
+}
+
+/* Filters Bar */
+.filters-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--azure-border);
+    background-color: var(--azure-sidebar);
+    flex-wrap: wrap;
+}
+
+.filter-input {
+    width: 200px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--azure-border);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.filter-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-pill {
+    background-color: var(--azure-light-blue);
+    color: var(--azure-blue);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pill-remove {
+    background: none;
+    border: none;
+    color: var(--azure-blue);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-filter {
+    background: none;
+    border: 1px dashed var(--azure-border);
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--azure-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.add-filter:hover {
+    border-color: var(--azure-blue);
+    color: var(--azure-blue);
+}
+
+.view-options {
+    margin-left: auto;
+}
+
+.grouping-select {
+    padding: 6px 12px;
+    border: 1px solid var(--azure-border);
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: var(--azure-surface);
+}
+
+/* Visualization Container */
+.visualization-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+}
+
+.sidebar-controls {
+    width: 48px;
+    background-color: var(--azure-sidebar);
+    border-right: 1px solid var(--azure-border);
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    gap: 4px;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    color: var(--azure-text-secondary);
+    font-size: 16px;
+    border-radius: 4px;
+    margin: 0 4px;
+}
+
+.control-btn:hover {
+    background-color: var(--azure-light-blue);
+    color: var(--azure-blue);
+}
+
+#graph-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--azure-surface);
+}
+
+/* Results Footer */
+.results-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-top: 1px solid var(--azure-border);
+    background-color: var(--azure-sidebar);
+    font-size: 14px;
+}
+
+.pagination {
+    display: flex;
+    gap: 4px;
+}
+
+.page-btn {
+    background: none;
+    border: 1px solid var(--azure-border);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--azure-text-primary);
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: var(--azure-light-blue);
+}
+
+.page-btn.current {
+    background-color: var(--azure-blue);
+    color: white;
+    border-color: var(--azure-blue);
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.feedback-btn {
+    background: none;
+    border: none;
+    color: var(--azure-blue);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.feedback-btn:hover {
+    text-decoration: underline;
+}
+
+/* D3 Graph Specific Styles */
+.node {
+    cursor: pointer;
+}
+
+.node-icon {
+    font-size: 16px;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+}
+
+.node-background {
+    stroke: #fff;
+    stroke-width: 2px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.link {
+    stroke: var(--graph-link-color);
+    stroke-width: 1px;
+}
+
+.node-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 10px;
+    fill: var(--azure-text-primary);
+    text-anchor: middle;
+    pointer-events: none;
+    font-weight: 400;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: var(--azure-text-primary);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    max-width: 250px;
+}
+
+.resource-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.status-running { background-color: #107c10; }
+.status-stopped { background-color: #d13438; }
+.status-warning { background-color: #ffb900; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-center {
+        display: none;
+    }
+    
+    .filters-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .toolbar-actions {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    .results-footer {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}

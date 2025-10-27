@@ -1,0 +1,1218 @@
+Alex EV2 WhatIf Research-20250930_150323-Meeting Recording
+September 30, 2025, 7:03PM
+1m 19s
+ Saebom Lee started transcription
+ A.M.   0:03 So working on like the US Nat US set clouds, but primarily my work is for the public cloud and I've I've kind of moved to a fully remote position. So I'm gonna be transitioning over to the the public side. But kind of.
+ Saebom Lee   0:26 I think I lost you, Alex. I can't. I can't hear you. Is it only me?
+ Angel Perez   0:35 I can still hear you Saebom.
+ Saebom Lee   0:38 Can you still? Can you? Can you hear *****?
+ Speaker 1   0:40 Yeah, I can hear you. I can't hear Alex either.
+ Saebom Lee   0:44 Oh. OK, I can't hear. Alex. Let me rejoin then.
+ Angel Perez   0:52 No, no, I think he might need to rejoin it.
+ Saebom Lee   0:54 OK, OK. OK. OK. Yeah. Don't worry. Yeah.
+ Speaker 1   0:54 Yeah, I think we all can't hear him.
+ Angel Perez   0:58 Yeah, yeah, just no rush here.
+ Saebom Lee stopped transcription 
+Alex EV2 WhatIf Research-20250930_150518-Meeting Recording
+September 30, 2025, 7:05PM
+56m 25s
+
+A.M.   0:03
+Talking about kind of what I work on now, so I I work on the Azure Bed grid service. I am part of the currently part of the Air Gap Cloud team so working in US SEC US Nat environments primarily. So I'm in a weird transition state I've moved to.
+A fully remote position, so I'm going to be transitioning entirely over to the public teamwork so, but it it kind of works out well because my experience even full time on the air gap cloud side has been mostly related to deployments for public.
+Airgap cloud, obviously, and then even Fairfax mooncake and doing build outs for new regions. New clouds, some most recently blue and now just starting up on Delos. So definitely a lot of EB2 use.
+On my side.
+
+Saebom Lee   0:58
+OK, OK. Sounds good. Thanks for sharing. OK. And and are you working with Ashraf currently?
+
+A.M.   1:07
+I mean, yes, we work together. I guess it's not like regularly, but yeah, we we definitely interface on on various tasks.
+
+Saebom Lee   1:15
+OK. Is David also your on your team?
+
+A.M.   1:19
+Which David, we've got a couple. Yes, yes, yeah.
+
+Saebom Lee   1:20
+Say good morning. OK, so you guys are all in the same team.
+
+A.M.   1:26
+Yeah, but I mean Ashraf is, he's fully public team David Moy Moy is the fully air gap cloud team.
+
+Saebom Lee   1:30
+None.
+I see. I see. Alright. So let's go through the topic one by one. Are you currently using EV2 Classic or EV2 region agnostics.
+
+A.M.   1:44
+Both.
+
+Saebom Lee   1:45
+OK. Could you could you give us more details like?
+
+A.M.   1:46
+Yeah.
+Yeah. So we've got, I mean, we've been kind of over the past probably couple years been been slowly transitioning everything over to region agnostic. So for example, all of our region build outs. So when we have a new region for the service that's all done via region agnostic pipelines.
+
+Saebom Lee   1:54
+Mm-hmm.
+
+A.M.   2:08
+Sorry, excuse me one second.
+
+Saebom Lee   2:11
+Mm-hmm.
+
+A.M.   2:14
+Sorry, I had to clear my throat. The but what we do have and we've utilised classic deployments more ad hoc.
+
+Saebom Lee   2:15
+Perfect.
+
+A.M.   2:28
+We do have some several classic pipelines that we're using for EV2. For example, when we're doing app deployments or app upgrades in production, we have a classic pipeline that we're using for EV2.
+
+Saebom Lee   2:33
+Yeah.
+Mm-hmm.
+
+A.M.   2:47
+And we are also utilising it not only EV2 via pipeline and the UI but the COMMANDLETS as well. Both region agnostic and the classic. So those primarily come in the form of.
+For evtu classic, if we're deploying something to our test environment, a lot of times we are. I mean, cuz we don't have right now a pipeline really set up outside of just building a new cluster for ourselves. If we're just trying to do like an app update, let's say.
+
+Saebom Lee   3:20
+You.
+
+A.M.   3:23
+Or or some more ad hoc type thing things. We just use our classic EV2 commandlets and deploy with rollout specs. That way we've also done with the cloud build out like this most recent Blue Cloud build out. We had a lot of manual EV2 commandlet.
+
+Saebom Lee   3:29
+Hmm.
+
+A.M.   3:43
+Deployments. Just because the cloud has been kind of, it's spotty on what's available, right. And EV2 was not one of those things when we were building out. So we had to do everything essentially via both EV2 Classic and EV2 region agnostic.
+
+Saebom Lee   3:43
+Mm-hmm.
+
+A.M.   3:59
+Commandlet deployments.
+
+Saebom Lee   3:59
+Gotcha. You said that your your team is migrating to region agnostic like in the long run.
+
+A.M.   4:07
+Yes. Yeah, that's the that is the goal to be off of classic entirely.
+
+Saebom Lee   4:12
+And so, uh, one of the reasons why you are still using EV2 classic is because, umm.
+
+A.M.   4:18
+It's, I mean primarily just because of we haven't had the time like a priorities have overcome our ability to take time to build out like new region agnostic pipelines for some of our stuff. So we have the classic pipelines that are working.
+
+Saebom Lee   4:25
+OK.
+Again.
+
+A.M.   4:35
+But then we just seem to get more and more priority type taskings that, you know, overwhelm our ability to do that. And since classic is working, you know, it's kind of one of those things that falls further back down the lift because it's like, yeah, we can deploy now, it's just not region agnostic. And we have these other priorities, so.
+
+Saebom Lee   4:48
+OK.
+Yeah. Yeah, got it. OK, so let's move on to ARM template versus spice like which one do you use?
+
+A.M.   4:54
+Umm.
+That one is entirely arm templates. I've I've never used bicep.
+
+Saebom Lee   5:05
+OK, OK. Alright. For the next one. What CIC? The tooling does your team use between the two?
+
+A.M.   5:10
+Uh-huh.
+Azure DevOps.
+
+Saebom Lee   5:15
+OK, OK. Do you also delete so the pipelines or resources? Yeah.
+
+A.M.   5:25
+Pipelines I I've never deleted a pipeline. Personally, I know we've we have some disabled pipelines, but that's that's usually falling out of my purview, so I'm not entirely sure I I personally no, I have not deleted.
+
+Saebom Lee   5:42
+OK, OK. Sounds good. Angel, if you have any question, please feel free to chime in. All right, let's move on to the next topic then.
+
+A.M.   5:42
+Pipelines.
+
+Angel Perez   5:54
+Sorry, I might have missed this and I'm sorry if I did so. Alex, you mentioned that you're only using ARM templates today. Was that right? OK, have you heard of bicep before?
+
+A.M.   6:05
+That's correct.
+I've heard of it, but to be honest with you, I I don't know entirely what it is. I've never looked into it. I know our service has just always used ARM templates and so that's what I got familiar with him.
+
+Angel Perez   6:15
+Got it. And.
+All good, I guess for the purpose of this meeting, I'll just give you a quick two sentences of what it is and then we can continue on to the broader topic. So bicep basically is an evolution of the ARM template language. So the ARM template language was like our first tab stab at.
+Infrastructure as code in Azure, but as you've seen it before, it's basically Jason with a bunch of embedded functions and how we interpret that. But bicep is meant to bring a little bit more of.
+
+A.M.   6:40
+And.
+Right.
+
+Angel Perez   6:54
+Programming language concepts that are more familiar, like for loops, user refined functions, and a couple other things.
+
+A.M.   7:02
+OK.
+
+Angel Perez   7:04
+And it it just brings a lot of both easier use, easier to understand, way to describe and deploy your infrastructure's code. But also it allows us.
+Kind of a reduced failure rate right out of the gate, since a lot of those errors are caught beforehand in the like as they're being typed out. So like the Intellisense, we're able to provide in bicep is is a lot richer. So yeah, we can leave it at that.
+
+A.M.   7:25
+Uh.
+OK.
+
+Angel Perez   7:36
+Happy to jump on a call and and have you know an end to end on bicep if you're interested. But yeah, we can continue on here. Oh, sorry. The other only other one. What if you've never used before?
+
+A.M.   7:42
+Uh-huh.
+I'm sorry.
+
+Angel Perez   7:52
+Had had you use? What if before?
+
+A.M.   7:54
+Oh, I I have not. No, I'm aware of it, but I have not used it. No.
+
+Angel Perez   7:59
+Aware of it in in like what sense like other folks on your team use it or.
+
+A.M.   8:03
+I I I'm aware of it in that other folks in our team have used it and I I'm aware of what it's meant to accomplish. Like you can run a what it what if command and basically it'll inform you almost diff like here if you have this existing resource this is what's going to be deleted. This is what's going to be added.
+
+Angel Perez   8:13
+Mm-hmm.
+Gotcha.
+
+A.M.   8:18
+Right. But but yeah, never personally have used it.
+
+Saebom Lee   8:22
+Mm-hmm.
+
+Angel Perez   8:22
+OK, sounds good. Alright, I'm caught up before I say mom.
+
+Saebom Lee   8:26
+Right, OK. All right, then let's move on to the next topic. So like we would love to hear like how you're working with the deployment practises like pipeline life cycle, first thing, resource deletion frequency, like how often do you need to delete your resources? You said that you never.
+Delete usually.
+
+A.M.   8:47
+So I guess I'm unclear, maybe I misunderstood what you meant by delete. Do you mean like delete resources in the cloud? Or do you mean? OK, so I'm sorry. Yeah. OK, then. I'm sorry. I thought you meant just the pipelines we used to deploy. OK. No, no, no.
+
+Saebom Lee   8:51
+OK.
+Yeah, any. Yeah. Any detail? Yeah. Yeah, yeah.
+
+Angel Perez   8:54
+Yes.
+
+Saebom Lee   9:00
+Oh, I'm sorry.
+
+A.M.   9:03
+Sorry so I have. Yes, I have definitely deleted resources in the past. It's not, I wouldn't say a large part at all of what I do and it's only usually done during either region or cloud build outs.
+Because once we have an existing region, the yeah, deleting resources that kind of moves out of my purview, I'm usually on that build side of things. So yeah, when I'm deleting resources though, it's primarily either was something was deployed misconfigured or.
+We're having some issues with maybe like an A VMSS or an SF cluster and it needs to just be cleared out and redeployed, but that's usually done almost entirely in my experience via just using the portal directly and going in and deleting.
+Resources that way.
+
+Saebom Lee   10:01
+OK, OK.
+None.
+For the test environment life cycle like, do you ever build test environment?
+
+A.M.   10:11
+I do occasionally. I mean, not not frequently. I've done it honestly. The number of times I've done it really can be counted on one hand, but I've I've I have a little bit of.
+
+Saebom Lee   10:20
+Yeah.
+
+A.M.   10:28
+Experience with it in the sense of.
+Another individual on our team on our our India team built out a pipeline, a regional agnostic pipeline to deploy and build out test environment resources and again it kind of was built off of some work that both myself and another.
+
+Saebom Lee   10:44
+Mm-hmm.
+
+A.M.   10:50
+Engineer on the team here. Jr worked on primarily Jr's, so there's just a little bit of knowledge there. But as far as the test of environment life cycle, I'm not as familiar.
+
+Saebom Lee   10:52
+Yeah.
+OK, OK. So let's say your test environment is no longer in use like how are those environments get cleaned up?
+
+A.M.   11:10
+So that's a great question and something we had had in the past and we're trying to get back to, but kind of similar to what I was saying with the migrating to region agnostic just falls to the wayside in terms of priority is we have the Azure subscription library.
+
+Saebom Lee   11:13
+Yeah.
+
+A.M.   11:27
+Where we had our subscriptions, all of our test subscriptions registered there and you would go through the process of utilising that UI to check out a specific subscription for your test purposes. And once that time that you had it checked out expired.
+
+Saebom Lee   11:38
+Hmm.
+
+A.M.   11:43
+It was just an automated process of deleting all of your resources out of there, so currently we don't have that and we have messy subscriptions, so we definitely have a lot of people testing and not cleaning up.
+
+Saebom Lee   11:48
+Yeah.
+
+A.M.   12:00
+Which is why we are wanting to move back to the subscription library system.
+
+Saebom Lee   12:05
+OK, so like nothing is automated for now.
+
+A.M.   12:10
+For deletion, are you talking about specifically?
+
+Saebom Lee   12:13
+Yeah, we're delicious.
+
+A.M.   12:14
+Yeah, yeah, yeah, that that is accurate.
+
+Saebom Lee   12:18
+Sounds good. OK. Are you using JIT today for JIT before? Yeah.
+
+A.M.   12:23
+Jit. Oh, yeah. Mm-hmm. Yeah. Definitely isn't Jit every day, essentially.
+
+Saebom Lee   12:29
+Mm-hmm.
+
+A.M.   12:30
+Yeah.
+
+Angel Perez   12:30
+Is that the only way you delete?
+
+A.M.   12:35
+Using jit.
+
+Angel Perez   12:36
+Yeah.
+
+A.M.   12:37
+I mean from I I kind of need it to act to be have that ability to delete. If you're talking about like in prod or any non test environment because otherwise we sorry go ahead.
+
+Angel Perez   12:47
+Yeah. So for so, so for a test you you mentioned that it's not very often, would you say it's like every two months, three months?
+
+A.M.   12:56
+To delete resources there I no, it'd be less than that I I mean I I I so very rarely use test. I would be probably comfortable in saying it's maybe once once every six months.
+
+Angel Perez   12:59
+Mm-hmm.
+
+Saebom Lee   13:10
+Mm-hmm.
+
+Angel Perez   13:11
+Yeah.
+OK, vote for it.
+
+A.M.   13:14
+But I I mean, yeah, I definitely don't need JIT for that 'cause. We just have. I mean it's the test environment. We can just go ahead and delete. We don't need any JIT permissions for that.
+
+Saebom Lee   13:20
+I.
+
+Angel Perez   13:23
+Yep.
+
+Saebom Lee   13:26
+And therefore the pot.
+
+Angel Perez   13:26
+Cool.
+
+A.M.   13:31
+I'm sorry. Oh, for prod. Yeah, that. Yeah. So in the event I do need to delete anything or like I said, doing those build outs, I'll get JIT. But we also use Jits for a lot of different things whether it's.
+
+Saebom Lee   13:32
+Yeah.
+
+A.M.   13:47
+You know specific Asus actions that we're trying to or Geneva actions that we're trying to run arm manifest deployments that we need to run that we need access for. Yeah. What else if if you know needing to access?
+Fairfax or mooncake clouds, we usually need to get JIT for subscription access or depending on what we're doing, maybe key Vault access. Yeah, it's kinda all over the board. You know, if we need to access a specific cluster. Actually RDP on to it. We'll have to get.
+
+Saebom Lee   14:09
+Thank you.
+
+A.M.   14:24
+It for the VMSS resource also if we are looking to make any changes to a cluster via the service Fabric Explorer, we have a specific JIT policy for that as well that we can request.
+And then have that permission to make those administrator levels changes.
+
+Saebom Lee   14:49
+OK, got it, got it. All right. Moving on to the next topic, how do you prevent making unwanted changes today like, have you, I guess you have encountered like many instances like there happened unwanted changes after deployment.
+
+A.M.   15:09
+Making unwanted changes the I guess I'm I'm not entirely sure what you mean by the question. Do you mean like say if somebody was going to delete a resource that they shouldn't, how do we prevent that? Or or I I'm a little unclear and.
+
+Angel Perez   15:25
+Yeah, I I think that that's pretty much any write or delete operation. So I I think I don't know that this is less probable in error gap 'cause there's a lot fewer folks that have access to that space.
+
+A.M.   15:26
+Listener.
+OK.
+Uh-huh. Uh, huh.
+
+Angel Perez   15:40
+But in public, yeah, there there's a lot of instances where folks get access to certain scopes just to be able to work on their projects, and sometimes they might accidentally make changes. So.
+
+A.M.   15:42
+None.
+It's so.
+Uh-huh.
+Yeah.
+Yeah, I guess the only thing I can, I mean our only real that I'm aware of gates to preventing unwanted changes is would be like the JIT process.
+Of say, somebody is getting a certain level access to a certain subscription or something the.
+
+Saebom Lee   16:12
+Mm-hmm.
+
+A.M.   16:18
+There would be ideally question. You know there should be clear understanding whether it's from submitting the request to the team to say I need this JIT approved or somebody if they haven't asking the question like what do you need it for, right? Like what are you doing?
+And and I guess getting that unofficial, I mean the official is right, the approval but the getting that unofficial like what are you doing and kind of getting the approval to say yes that's what you should be doing go ahead and do that another and that's for obviously a more manual.
+Resource configure, you know, messing around with resources, whether creating, deleting what have you. But for deployments we also have just the approval process built into our pipelines where somebody will submit their deployments and it's gated on an approval. The official approval that we have to.
+
+Saebom Lee   17:03
+Mm-hmm.
+
+A.M.   17:11
+Grant their approve set of deployment via the saw device. A similar thing right? Like what am I approving? What is this? What? What is your deployment so people will?
+
+Saebom Lee   17:23
+And.
+
+Angel Perez   17:25
+Yeah.
+
+A.M.   17:27
+You know, depending on the individual right, we'll either do as little as here's the link to the deployment, you know, ask questions if you need to. The here's the deployment. Here's the task I was looking to accomplish. Here's the PR.
+Are the code changes I made to to implement and here's like the rollout spec I'm using to, you know, help inform the approver of what it is that's gonna be touched.
+
+Saebom Lee   17:58
+Gotcha. Gotcha. So like do you, do you have any other mechanisms like Azure policy or RBAC during the process?
+
+A.M.   18:07
+Yeah, we, I mean, we definitely have the the RBAC process and that's I mean that's kind of what requires the whole JIT, right, because we've we've locked down all of our subscriptions and resources. But you know if somebody goes and gets a JIT owner level, you know that they're just the God Mode on that subscription. They can do whatever they want.
+
+Saebom Lee   18:15
+Yeah.
+
+A.M.   18:27
+So I mean, yes, I guess technically speaking, we do have those those security measures in place of the role based assignments and having those policies in in place, but.
+Umm.
+Yeah, that's I think that's that's pretty much it. As far as like the Azure portal goes, yeah, I don't know what I don't know.
+
+Saebom Lee   18:44
+Hmm.
+Yeah, OK. OK. If I think it covers the actual governor's questions that are prepared to. OK, I think we can move on to the next one.
+
+A.M.   19:02
+OK.
+
+Saebom Lee   19:03
+So that was to understand like your current EV 2 users and your workflow so that we can move forward. We do have a design stimuli that we would like to get your feedback on. But before that, let me just ask you these three questions first.
+Two questions, three questions. So are you currently using, have you used or heard of diploma stacks?
+
+A.M.   19:20
+Yeah.
+I have not heard of it.
+
+Saebom Lee   19:29
+OK, OK. And the what if I remember that you heard of it, but you're not actually using it?
+
+A.M.   19:33
+Yeah.
+Correct.
+
+Saebom Lee   19:37
+OK. OK. For the next question, I think you answered the first one. You guys are using the did request to perform delete in the portal and also yeah and then do you also use EV2 ext?
+
+A.M.   19:43
+Yeah.
+Uh-huh.
+
+Saebom Lee   19:54
+Fortilation.
+
+A.M.   19:57
+I don't know if.
+I don't know if we've used the extension. I personally I don't think I have. I've I've used the commandlets. Oh. Well, I'm sorry. No, I haven't.
+Umm.
+No. Well, yeah, not not me. Personally, I've I'm not familiar with any EV2 ext. Used to perform delete but.
+
+Angel Perez   20:20
+I I think that's more of an extension that your team would author for yourself to perform that specific delete you're trying to to achieve. I think this is a more edge case. We've only heard a couple teams that do this, but for the most part it's just jet across the board.
+
+Saebom Lee   20:26
+Hmm.
+
+A.M.   20:29
+Yeah.
+
+Saebom Lee   20:34
+Yeah.
+
+A.M.   20:35
+Yeah.
+
+Angel Perez   20:38
+And then I think what you said is in test environments you just go in the portal and delete things, but that would be you know per scope, you're going 1 by 1 per scope. So it's more of a manual cleanup that you're doing of that environment.
+
+A.M.   20:38
+For the yeah.
+If it's being done honestly like with the, I think we've we've noticed some subscriptions where those those resources just kind of live on so but yeah.
+
+Angel Perez   21:06
+But would you say I thought I thought I heard earlier that it was like more monthly that y'all were doing the deletes or or did I miss here there?
+
+A.M.   21:16
+I think you misheard. Yeah. No, this I was speaking for myself personally, I'd like as far as as far as how what other engineers are doing. I have no idea. I don't know if they're doing any deletions. That's not really my purview.
+
+Angel Perez   21:19
+Oh, OK.
+I I was thinking more so the service itself, but yeah, I think that's probably a broader question to the team. I get what you're saying.
+
+A.M.   21:36
+Yeah.
+
+Angel Perez   21:37
+Yeah, in air gap, it's almost always just fraud and that's done legit to summarise.
+
+A.M.   21:45
+Yep. Yep, exactly.
+
+Angel Perez   21:47
+Yeah, cool. Think we can move on. Save on.
+
+Saebom Lee   21:49
+OK.
+Alright. Yeah. So I think you can take away from here on hell for a moment.
+
+Angel Perez   21:59
+Yeah. So I guess, Alex, you mentioned you're familiar with the, what if had you seen the what if output before?
+
+A.M.   22:05
+I've never actually seen the output, no.
+
+Angel Perez   22:07
+Oh, OK then I guess we can walk through this more generally. So pretty much the what if output as you mentioned shows a a DIF of state of the resources before and what the potential new state.
+Given the changes to the template will be for that resource or resources.
+Umm so that diff is kind of.
+Categorise between change types which you see at the top like create, modify, delete and then within the scope of the resources themselves you see the the full resource like resource type, namespace and API version and what kind of changes they have.
+That's the one further below at the at the bottom. So that's what the existing what if looked like, but everything that we're adding in this view that we're getting feedback on is more net new.
+
+A.M.   23:03
+Yeah.
+I I've caused issues and that's the problem. On the on there.
+
+Angel Perez   23:09
+This relates to deployment stacks and since you haven't heard of deployment stacks before, I think the best use of the time is to very quickly just give you a walkthrough of of what stacks is and then jump back to.
+
+A.M.   23:23
+Yeah.
+
+Angel Perez   23:26
+What this view and and then what the following EV2 portal view might mean to you and what kind of feedback you can give to us on that. So let me share very quickly. So you're familiar with ARM templates, right?
+
+A.M.   23:27
+OK, the project is more days and it's like out of the pool.
+I think you've probably heard the story before, OK?
+Oh yeah, yeah.
+
+Angel Perez   23:44
+OK, so deployment stacks is meant to be kind of like the evolution of ARM templates. So today you might use something like a commandlet to say new Arizona deployment.
+
+A.M.   23:49
+OK.
+
+Angel Perez   24:01
+Group or a Arizona group deployment or Arizona subscription deployment. Now we have that same thing but with STACK at the end, so deployment stack is meant to be thought of as.
+
+A.M.   24:14
+Yeah.
+
+Angel Perez   24:17
+The same thing as the deployment, but it's a new resource type and it's a resource that actually lives in in Azure. So the deployment before is more seen as a record. So I think this can be seen a little bit.
+
+A.M.   24:20
+Yeah, the projects.
+Well, there were two subscriptions.
+Anything on?
+
+Angel Perez   24:32
+Better, more visually.
+In the portal. So let me just show you that quickly.
+Oh, it looks like team crashed again for Alex.
+
+Saebom Lee   24:54
+Alex yeah.
+Think we can still bring the screen and then wait for him to rejoin?
+
+Angel Perez   25:03
+Yeah, yeah, I was just getting this set up.
+
+Saebom Lee   25:04
+Mm-hmm.
+
+A.M.   25:41
+I got it. There's a service. Possibly. Alright, sorry about that.
+
+Saebom Lee   25:46
+No worries.
+Oh.
+
+Angel Perez   25:55
+Alright, so can you see my screen Alex?
+
+A.M.   25:59
+I can, yeah.
+
+Angel Perez   26:01
+Right. So very quickly.
+Deployments, as you know we can find them at any scope can be RG, it can be subscription, it can be management group and these are pretty much those records of what got deployed and just a reference to that template and the operations that resulted from that.
+
+A.M.   26:06
+Uh-huh.
+Mm-hmm.
+Right.
+Mm-hmm.
+
+Angel Perez   26:20
+So now we have within each scope as well deployment stacks, but different from our regular deployments. Deployment stack is an actual resource, so by that what I mean is it has its own ID.
+So just like with any other resource, you could use our back to kind of block away access to this new deployment mechanism and then reason why that will be important is because the step the relationship between the stack resource.
+And the resources it deploys is a relationship of manage resources. So this stack AP test O2 manages all of these resources, and that word manages basically just means.
+
+A.M.   27:08
+Uh-huh.
+
+Angel Perez   27:11
+The stack has some special power over these resources. In certain cases, SO2 cases are action on unmanaged, so when a resource becomes unmanaged or when that association between them is broken.
+
+A.M.   27:27
+Uh-huh.
+
+Angel Perez   27:28
+What can the stack do to that resource so action and manage can be triggered in two ways? One way is we just delete the stack and say I want to delete everything as well along with it, so that is kind of a new way to do a very fast and and secure.
+
+A.M.   27:40
+OK.
+
+Angel Perez   27:47
+Delete of resources. So for cleanup out of those test environments and whatnot, it becomes something a lot more standard. It was also a capability that was already available in in AWS and it's more getting us to to par capability wise.
+
+A.M.   27:49
+Mm-hmm.
+Mm-hmm.
+
+Angel Perez   28:07
+In the infrastructure as code space. So that's one way of triggering it. But the more interesting one that I think relates to you and the whole.
+
+A.M.   28:11
+Sure.
+
+Angel Perez   28:17
+Ongoing air Gap cloud day-to-day is when you're deleting it programmatically by removing something from the bicep file or ARM template file itself. This is a bicep file but.
+You can see it as just the same as ARM template dot Jason, it's just describing your infrastructure. So here in this example what I have is section or manage set to delete all. So if I were to say.
+An SFI incident came in or something that resulted from.
+An outreach or incident that's getting fixed. You could, instead of going through the portal, just search that resource itself. That reference and comment it out or just remove it from the template outright. So in this case I'm just going to do this resource to group.
+
+A.M.   28:59
+So the old.
+What we have?
+They stood up a separate customer and they any more work came up over there as we did.
+
+Angel Perez   29:19
+And network.
+Or actually let me do a storage account instead.
+
+A.M.   29:24
+MSS cluster is and.
+
+Angel Perez   29:30
+Let's just do these storage accounts for now. Let's say the result of the incident is we need to remove these for that SFI item to go away. We would just be able to comment this out and rerun that same command.
+
+A.M.   29:33
+We're actually storage account.
+So customer community literally never figured out something is wrong.
+
+Angel Perez   29:48
+So you could see this already being kind of automated in a pipeline, if you will.
+
+A.M.   29:49
+Time change and up until one very like starting on that project definitely can be a lot of.
+
+Angel Perez   29:55
+And what the stack is gonna do is, since I ran a create, not a delete command for that stack, it's just gonna update that stack resource, but it sees that these two are no longer present and upon seeing that it says what are my action on unmanaged settings.
+
+A.M.   29:57
+Maybe not.
+It's expensive.
+OK.
+Centre.
+
+Angel Perez   30:14
+All. It's gonna have permission to just clean these up while it also updates the others.
+
+A.M.   30:15
+Right.
+Yeah, I assume there's another setting where you could say I only want to delete portions of this stack, but I don't want to delete existing, so would you then OK.
+
+Angel Perez   30:31
+Yeah. So action and manage can be broken up into three ways. There is action and manage delete all this deletes, resource groups, management groups and resources. There's delete resources which just deletes resources. But.
+
+A.M.   30:40
+Mm-hmm.
+Uh-huh.
+
+Angel Perez   30:50
+Detaches the other and detach just means this resource can continue existing in Azure, but we break the association of it to the stack resource. In this case the stack called AP test O2.
+
+A.M.   31:01
+OK.
+
+Angel Perez   31:08
+And then the other one is just detach all where you just remove them from the stack, but let them continue existing where they got deployed. So you.
+
+A.M.   31:14
+Aye.
+So, but this is sorry, this is are you creating a new stack each time you do so? If I'm understanding the the scenario here correctly, everything in that bicep file you were showing, even the commented stuff had originally been deployed at some point, right? And then?
+
+Angel Perez   31:27
+OK.
+
+A.M.   31:36
+In the scenario where there's an SFI item you want to delete those storage accounts that were part of that original stack. When you're running that command, is it creating a brand new stack or you is there like an update stack?
+
+Angel Perez   31:39
+Mm-hmm.
+Yep.
+It it would be an update and there is a set command in PowerShell but the create is effectively an update to anything that already exists, so if it has that same name AP test O2 in that same scope. In this case that subscription at West US 2.
+
+A.M.   31:51
+OK.
+OK.
+OK, it says the name.
+Uh-huh.
+
+Angel Perez   32:08
+Then it would be an update, but if you're doing it to a different scope then it will end up creating a a different stack.
+
+A.M.   32:12
+Uh-huh.
+All right. And is there is, is there an ability to, I know you said there's a three options of like deleting everything, detaching and what have you, but if you've if you've done that, so you've in your scenario you've everything was created, you've run it again to delete those storage accounts.
+But say that the SFI item was caused by faulty storage accounts, so you deleted those, but you're like. But I need those storage accounts again.
+Do you do a third update and it would or I guess create it would just create new ones, right? Yeah. OK.
+
+Angel Perez   32:42
+You could just read.
+Yeah, it would create new ones. It would delete them first and and recreate them. So and it's. If you're using that delete command, which is the the main purpose of this. So you can see here that I just commented those out, reran the command.
+
+A.M.   32:52
+OK.
+I see. Yep.
+Mm-hmm.
+
+Angel Perez   33:03
+And those got deleted. So if I go and try and find this storage account it's already it's gone. The biggest value prop here is more so the speed we're bringing with the guardrails alongside it.
+
+A.M.   33:04
+I see.
+Yeah, yeah. Yep.
+Mm-hmm.
+
+Angel Perez   33:18
+Like you know, these are managed cause those are described in the.
+The BICEP file arm template file and there's like if you maintain the operations there, then there's less probability of something was removed here manually from someone else or at some other point in time.
+
+A.M.   33:26
+Aha.
+Mm-hmm.
+
+Angel Perez   33:42
+'Cause as well that bicep file you can have tracked in git and and so on and so forth.
+
+A.M.   33:47
+Is, is, are people still able to? If something is created in a deployment stack? If they just go through JIT, get owner access, can they independently delete resources that have been created via deployment stack?
+
+Angel Perez   34:00
+That brings us to that other capability. So stacks have the power to manage the resources in in scaling those deletes, but also in protecting them as well from unwanting changes. And that's the stacks deny setting so.
+We have the ability to do a deny settings mode and that can be either deny write and delete or deny delete. That basically means even I that have access to these scopes to these resources.
+If I go ahead and attempt to delete this, I'm gonna get immediately failed and it's gonna cite that deny assignment that is owned by that deployment stack resource and the ID of that resource.
+
+A.M.   34:49
+OK, so if if one if for example you had a deployment stack or deployed a bunch of resources in a specific resource group and for whatever reason you need to delete an entire that entire resource group, maybe it has other resources in there that are excluded from the deployment stack you would.
+First have to delete everything that was in there from a deployment stack and then do the full resource group deletion.
+
+Angel Perez   35:18
+Sorry, can you repeat that first part?
+
+A.M.   35:20
+So if you if you had just a single resource group that for whatever reason needed to be deleted entirely, all resources held there need to go away, but a portion of the resources that existed in that resource group were created by a deployment stack.
+
+Angel Perez   35:25
+Mm-hmm.
+Yeah.
+Got it.
+
+A.M.   35:37
+In order to accomplish that, you would have to first do run a deployment stack, delete, and then do the resource group deletion.
+
+Angel Perez   35:42
+Mm-hmm.
+No, the stack could delete resource groups as well. I I I get what you're saying. If they're not managed by the same stack, I think the resource group delete would delete those resources.
+
+A.M.   35:50
+But if the if if the I guess OK yeah.
+Hmm.
+I see.
+
+Angel Perez   36:04
+Or there would be some type of failure I need to retry that scenario again. Our main guidance mostly is the things that should be together in terms of having a similar life cycle of how often they're deployed or updated.
+
+A.M.   36:09
+Yeah. 'cause. Then then I guess that could bring up.
+
+Angel Perez   36:21
+You put those in the same stack. It basically varies from teams wanting to represent an entire app as a stack. That way you could stand it up and tear it down as needed, and then also.
+
+A.M.   36:24
+I see. Yeah. So you wouldn't have that.
+
+Angel Perez   36:36
+Specific categories of resources as a stack. So like all storage accounts for this project are in this stack and anything related to storage runs through here. I think as we see more and more.
+
+A.M.   36:47
+Mm-hmm.
+
+Angel Perez   36:53
+Higher usage, more mature customers. Using this, we're we're also learning like the ways they're already representing their their applications and sometimes simple things like this nomenclature pattern that we decided on years ago.
+
+A.M.   37:05
+Like my 3D1?
+
+Angel Perez   37:10
+Kind of dictates how they move with these. These different options they have.
+
+A.M.   37:16
+Mm-hmm. OK.
+
+Angel Perez   37:18
+The interesting thing that here though for deny settings is you can have this guardrail and end but in some cases and and I don't know if this might be specially relevant to air gap clouds you want to have special access to still be able to go in manually and delay.
+The resource and that's where excluded principles and excluded actions come in.
+
+A.M.   37:41
+They're like you're not education, I see.
+
+Angel Perez   37:44
+So like here I would be able to say Alex's principal ID is excluded from this deny setting. So in you know you could still go manually to this V NET resource and click delete and it's gonna work.
+
+A.M.   37:54
+OK.
+I I I would do that for.
+And that would work also for, say specific security groups.
+
+Angel Perez   38:08
+Yes, you could pass in a a security. You mean like a one that groups like multiple principal IDs.
+
+A.M.   38:16
+Yeah.
+
+Angel Perez   38:18
+Yeah, I believe so as well as policy assignments. And please feel free to test that out and and and give us any feedback on on that one. Stacks is something that's already GA and it's available to 3rd party customers.
+
+A.M.   38:20
+OK.
+OK.
+OK.
+Mm-hmm.
+
+Angel Perez   38:35
+And we're doing the work here to integrate this into the EV2 internal experience.
+
+A.M.   38:43
+OK, cool.
+
+Angel Perez   38:45
+Cool. So the only other way to exclude things from deny assignment is actions themselves, so maybe there's a different case where you just want to exclude a particular action for everyone on the project, or what have you. Maybe write access on a storage account, for example.
+
+A.M.   39:03
+Mm-hmm.
+
+Angel Perez   39:06
+Well, but that stacks. In a nutshell. I think we can, we can jump back to to the slides.
+
+A.M.   39:09
+OK.
+
+Saebom Lee   39:19
+All right, so we're back on the slide. Do you have any further question, Alex, before we move on?
+
+A.M.   39:28
+No, not not at the moment.
+
+Saebom Lee   39:31
+For the next of the calls course we'll what we're trying to share your feedback around is we wanted to see like how this what if output like how you navigate on EBITDA portal to find relevant information regarding this output.
+So this is the EV2 portal screen that you might be familiar with, right? So starting from this screen, if you were to look for the what if related information like.
+How do you imagine to find those?
+
+A.M.   40:09
+Well, I I don't know if this is the answer you're looking for, but I would look at the what if results next to the STP compliance and click into that, but.
+
+Saebom Lee   40:18
+OK, OK. But yeah, we can come back to the point. But but we because because we need to create something for you to initiate you to talk about your opinion. So that's why we have this. But if you prefer or if you can suggest some other alternative ways that we're very much open to it too, but anyways.
+
+A.M.   40:19
+Yeah.
+He would.
+Right.
+None.
+
+Saebom Lee   40:38
+Here we have prepared a new tab right next to the SDP compliance which is called like. What if results? What is your understanding about this page?
+
+A.M.   40:46
+I told you it would be. I have no understanding of this page. Does it exist currently or is this OK? I would I mean if I was to hazard a guess I would. I would imagine it would just while the deployment is ongoing. Tell you what.
+
+Saebom Lee   40:53
+No, it does not.
+
+A.M.   41:05
+The final state would look like but yeah.
+
+Saebom Lee   41:08
+So starting from screen, if you were to like find the what if results in detail like where where do you think you want to go?
+
+A.M.   41:14
+None.
+I'm not sure I understand. Like do you mean just like when I click on that tab? I I don't. I don't really understand.
+
+Saebom Lee   41:32
+So starting from this screen like you can click or like whatever you want to go or you expect to see from like clicking this tab, clicking this button or you might want to see something in the column details like to get into the what if results output.
+
+A.M.   41:34
+Uh-huh.
+
+Saebom Lee   41:52
+Shared in the CLI before here.
+
+A.M.   41:52
+Oh, I see. I see. I guess I guess maybe another thing I would like to see is that maybe step by step in these those ellipses that are on the right side where if say you have a failed step where you can retry or skip steps.
+If there was a an additional option of like, what if result for that specific step to then say hey, like if it when this step runs, this is what's going to happen that you know it would either navigate you to that in a in a new window or a pop-up if it's short enough to just kind of display.
+
+Saebom Lee   42:07
+Mm-hmm.
+Mm-hmm.
+
+A.M.   42:28
+That that output.
+Yeah, that's. But yeah, and then I would, I would maybe more than so imagine if a a a tab like that whether it's where you have it listed there or on the far left column being a result that's more comprehensive or like this entire deployment, this is what is going to be happening and then you can.
+
+Saebom Lee   42:32
+Something says.
+None.
+Yeah.
+
+A.M.   42:50
+Kind of navigate through that more granularly there.
+
+Saebom Lee   42:54
+OK, so if you if you are able to do that then where would you so like let's say you can find a panel where a space that has those kind of like information. Then from here from this screen where do you expect to click and go to that panel?
+
+A.M.   43:12
+None.
+I guess.
+For the for the that initial scenario I mentioned that just those ellipses on the far right side, if you if you're doing it on that, that immediately granular level of what's the step going to do, what's the the what if there?
+
+Saebom Lee   43:25
+Mm-hmm.
+Mm-hmm.
+
+A.M.   43:33
+I would imagine clicking into that clicking and I I think I mentioned that I I guess I would have mentioned I would expect one of two things to happen when selecting that like what if option and it would be either.
+
+Saebom Lee   43:45
+Gotcha.
+
+A.M.   43:47
+Opening a new window that would or a new tab that would display those outputs, or if there was just a kind of a a new division that would open up or just a pop up window with those.
+
+Saebom Lee   43:54
+Mm-hmm.
+
+A.M.   44:04
+Outputs that you could either scroll through it, Hansel out of or what have you, but on the same screen, and then as far as that that tab goes. I guess it would be similar to how it is now where if I click on list I'll see what we're seeing right now, if I click on graphical it's more of the you know that.
+
+Saebom Lee   44:07
+I.
+
+A.M.   44:24
+Image based rather than textual SDKB compliance you know there, but then the what if results you'd click on that and it would just turn that whole section into the the what if results of that deployment probably similar in a similar window where you'd have each step?
+Laid out, but then rather than what? What's the status of the current step? It would say. Here's the here's what's gonna here's the what if results for each of those steps?
+
+Saebom Lee   44:47
+Mm-hmm.
+Got it, got it. I wonder how we can envision on that, but for now, so like the suggested way in this mock up particularly is to click the deploy and then you can open up the deploy panel as you usually do and then we can have the deployment stacks and.
+
+A.M.   45:05
+Uh-huh.
+Uh-huh.
+
+Saebom Lee   45:13
+If results underneath that OK, if you have any return today, please feel free to let us know cuz we would also want to explore on that and but but we can start from here.
+
+A.M.   45:14
+Oh yeah, that that works too.
+Sure.
+
+Saebom Lee   45:29
+So here on the deployment panel I want you to focus on here first on the on the main body panel. What is your understanding of this part? What do you think this is for?
+
+A.M.   45:44
+Deployment stack. What if result UR I I guess I mean I would imagine it doesn't look like that based on the image but I would have thought it would. It's just some Uri you can plug into your browser and it would take you to.
+
+Saebom Lee   45:57
+Mm-hmm.
+
+A.M.   45:59
+The What if results just in a on a different page?
+
+Saebom Lee   46:04
+If you click that one, it will actually bring up the portal. Here is this meeting your expectation that you would just addressed?
+
+Angel Perez   46:06
+Yep.
+
+A.M.   46:08
+OK.
+Yeah. Yeah, that's yeah, that's what I expect.
+
+Saebom Lee   46:14
+OK.
+I'm here. Please feel free to chime in.
+
+Angel Perez   46:20
+I I think that was perfect. Yeah. You this here what we have in the EB2 portal is basically the summary of what the result is gonna give. It's just a combination of change type and resource name.
+
+Saebom Lee   46:21
+And.
+
+Angel Perez   46:35
+But then for the specific property diff, that rich text all lives in the Azure portal and the reason for that Alex is because Azure Portal has rvac EV2 doesn't. And although what if does?
+
+A.M.   46:42
+Mm-hmm.
+Mm-hmm.
+
+Angel Perez   46:51
+Remove all things marked as secure strings. Some teams on accident do not include that proper secure string call out in their manifest and we don't wanna leak secrets accidentally. So this was kind of like the happy medium where we saw.
+
+A.M.   46:55
+Mm-hmm.
+I see.
+Fair enough. Yep.
+
+Angel Perez   47:10
+We can at least call out the most important thing in the EV2 portal, which is is a resource gonna get deleted? Yes or no.
+
+A.M.   47:15
+Right, Yep.
+
+Angel Perez   47:17
+And then further further in the Azure portal, you have the rest.
+
+A.M.   47:24
+Yeah. No, I I I personally really love that because you know, this just gives me a high level. This is what's going to happen on a high level. But you give me the option of, OK, I want to see that more detail and. But then while at the same time securing those or preserving the security settings for seeing what?
+
+Angel Perez   47:32
+1.
+
+A.M.   47:44
+Whoever's allowed to see you.
+
+Angel Perez   47:46
+Yeah.
+
+Saebom Lee   47:47
+OK, now now I want you to look at this part here. Is this making sense to you? Like, what is your understanding about this part?
+
+A.M.   47:48
+I like that.
+Yeah. No, that makes sense. Like I I from looking at this, I would see that there would be two resource creations. I I I would. I would hope that it would say give me a little bit more detail than just saying that the number of resources that would be creative, it would say like here's.
+
+Saebom Lee   48:14
+A.
+
+A.M.   48:14
+Right, same with. And I guess that would be my, my only thoughts there, I don't know and and maybe that's enough right? Because like you said, we don't want to get too into the weeds here for security reasons and what have you. But I feel like the the names and what the resource type is is already, you know out and available.
+
+Saebom Lee   48:14
+Yeah.
+
+A.M.   48:34
+In an ARM template, so might as well be able to show it here and that at the very least can give me some insight. It's like, great, OK. Yep, that's those are the storage accounts I'm looking to see, or VMSS, the VM scale sets or whatever.
+
+Saebom Lee   48:36
+Thank.
+
+A.M.   48:50
+And then I guess in this case, what would really be nice also, I realised this might be a little tough during deployment because it may you know this is a what if like it hasn't deployed yet, but if there was a possibility?
+Because you know so many, especially with like region build outs or larger deployments, you have dependencies on previous resources being created or updated before you start getting into other resource deployments or creations.
+If then you could see in this view not only that yes, X resource resource one was created, but perhaps even now a hyperlink to portal to take me to said resource.
+So I can say, oh, great, you know this, you know, the storage account here was or the VM scale set was created. I can go visit that. And now the because that's created, we are in the process of creating say the service fabric cluster which I can't access yet because it hasn't been deployed.
+Umm.
+
+Saebom Lee   49:56
+Yeah, yeah. That's a great feedback. All right. In addition to that, is there any like a missing information that you were you would find it really useful to have it on here?
+
+A.M.   50:13
+Well, I guess I don't know if this is is this supposed? Is what I'm seeing here supposed to be the comprehensive view of what is feasible or what? What would be viewable like create, delete, group, delete and modify are the only.
+Um are the only categories available as of now or like what I expect?
+
+Saebom Lee   50:32
+Nothing's fixated for me, yeah.
+
+Angel Perez   50:33
+There's a few other change types, but these are the main ones like others are more, there might be transient errors as. What if it's being generated and there might be like an ignore.
+
+A.M.   50:35
+Bye.
+OK.
+Mm-hmm.
+
+Angel Perez   50:49
+Or there might be a no changes like this resource. Effectively no changes are happening to it. I can share a full list of what those change types are or or. Those are also in in the Azure docs but but yeah.
+
+A.M.   50:55
+Uh-huh.
+What I get?
+OK. I guess I guess the reason I ask is my mind went to something say like I I'm not, I'm not entirely sure how it would be categorised currently, probably because I've I've never run a what if but if if if for example I'm running like part of my deployment includes a role assignment.
+And that's a step. Would that be categorised under a modify like at the subscription level we modified it by adding this role assignment to X service principal or.
+
+Angel Perez   51:37
+If it's a new role assignment, it would be a create.
+
+A.M.   51:41
+OK.
+
+Angel Perez   51:43
+Like you're creating the the resource itself.
+
+A.M.   51:43
+And if it's a.
+I see. OK. I see. OK, then. OK. Yep.
+
+Angel Perez   51:48
+Yeah. Anything that's specific to the relationship of the resource and the deployment stack would be shown as a stack specific attributes. And I think that kind of brings up a good point of how do we capture that here, like if that resource already existed.
+
+A.M.   51:53
+Uh-huh.
+
+Angel Perez   52:08
+Before it's being added to be managed by this stack. Is that where you were getting it?
+
+A.M.   52:08
+Right.
+Right. Yeah. Yeah, exactly.
+
+Angel Perez   52:16
+Yeah.
+Cool.
+
+Saebom Lee   52:20
+OK, OK. And then what is your thought of the the list here?
+
+A.M.   52:26
+Let's see, whatever results deployment stack resource operations. OK, so the resource operations are would be like those. The subsequent steps within said deployment stack and you would click into that and see those just at that granular more granular level.
+
+Angel Perez   52:40
+That that view is already available today. Like that's how the EV2 portal is, I guess the only menu things are stack and what if result which hasima now that I see this maybe we should group those and just leave resource operations at the top or bring it to the to the very bottom. But it seems a bit disconnected.
+
+A.M.   52:45
+Yeah, yeah, yeah.
+
+Saebom Lee   52:55
+Yeah.
+
+A.M.   52:59
+Uh-huh.
+
+Speaker 1   52:59
+Yeah, yeah. I think we were thinking about where we should place that, but that's a good point to include, yeah.
+
+Angel Perez   53:00
+Yeah.
+
+A.M.   53:00
+Yeah.
+Yeah. Yeah, I guess, yeah, that would be my thought too is group those.
+
+Saebom Lee   53:09
+OK, sounds good. Before we let you go, Alex, thank you so much for your feedback. There was one thing that popped out in my mind. So like here, as you can see like this is one way to display the create, delete, group, delete, modify the results here and you can also take a look at the sneak peek here.
+There in the in the main what if result tab in this column forward? Do you have any suggestion for this or oh what is your thought regarding the column information here?
+
+A.M.   53:32
+Uh-huh.
+I I think while you know you can click on that say deploy and it'll bring up a window to show you everything. I think it'd be useful if under each column where you have create three resources, if that also was kind of a hyperlink and I can just click on that to specifically just see the create.
+Resources. Same with the delete. Same with the modify group delete what have you.
+Let's see. Other than that, no, I think that looks good.
+
+Saebom Lee   54:15
+OK, OK, sounds good. Team, do we have further question that we would like to ask to Alex?
+
+A.M.   54:15
+Seven hours.
+
+Angel Perez   54:24
+No, I think this was great.
+
+Saebom Lee   54:27
+Yeah.
+
+Angel Perez   54:28
+So Alex, would this be something your team might be interested in as it becomes available?
+I think teams might have crashed again.
+
+Saebom Lee   54:39
+Oh my God, it's a bad day for Alex.
+
+Angel Perez   54:42
+That that's all good. We can. We can follow up.
+
+Saebom Lee   54:45
+Mm-hmm.
+
+Angel Perez   54:47
+But this was great. See Bomb say bomb and and thanks to Seema as well.
+
+Saebom Lee   54:50
+Yeah.
+Thank you, team. Thank you. Alex, if you can hear us. Thank you.
+
+Speaker 1   54:53
+Yeah. Thanks everyone. This is great. Thanks so much. I know. Bye.
+
+Angel Perez   54:57
+See ya.
+
+Saebom Lee stopped transcription

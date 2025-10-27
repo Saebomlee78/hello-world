@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV2 WhatIf Design Recommendations - KANO Model</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .kano-container {
+            padding: 40px;
+            position: relative;
+        }
+        .kano-chart {
+            position: relative;
+            width: 100%;
+            height: 800px;
+            border: 2px solid #34495e;
+            background: linear-gradient(to right, 
+                rgba(231, 76, 60, 0.1) 0%, 
+                rgba(241, 196, 15, 0.1) 50%, 
+                rgba(39, 174, 96, 0.1) 100%);
+        }
+        .axis {
+            position: absolute;
+            background: #34495e;
+        }
+        .axis-x {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+        }
+        .axis-y {
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+        }
+        .axis-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+        .axis-label.x {
+            bottom: -30px;
+            right: 20px;
+        }
+        .axis-label.y {
+            top: 20px;
+            left: 10px;
+            transform: rotate(90deg);
+            transform-origin: left center;
+        }
+        .quadrant-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 1.3em;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .quadrant-low-effort-high-impact {
+            top: 20px;
+            left: 20px;
+            color: #27ae60;
+        }
+        .quadrant-high-effort-high-impact {
+            top: 20px;
+            right: 20px;
+            color: #f39c12;
+        }
+        .quadrant-low-effort-low-impact {
+            bottom: 20px;
+            left: 20px;
+            color: #95a5a6;
+        }
+        .quadrant-high-effort-low-impact {
+            bottom: 20px;
+            right: 20px;
+            color: #e74c3c;
+        }
+        .feature {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid;
+            background: white;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .feature:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .feature.quick-wins {
+            border-color: #27ae60;
+            background: #2ecc71;
+        }
+        .feature.major-projects {
+            border-color: #f39c12;
+            background: #f1c40f;
+        }
+        .feature.fill-ins {
+            border-color: #95a5a6;
+            background: #bdc3c7;
+        }
+        .feature.questionable {
+            border-color: #e74c3c;
+            background: #e67e22;
+        }
+        .feature-tooltip {
+            position: absolute;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            min-width: 250px;
+            max-width: 350px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .feature-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .feature-tooltip h4 {
+            margin: 0 0 8px 0;
+            color: #ecf0f1;
+            font-size: 1.1em;
+        }
+        .feature-tooltip p {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        .feature-tooltip .evidence {
+            color: #a8e6cf;
+            font-style: italic;
+        }
+        .legend {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+        .legend-item.quick-wins {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        .legend-item.major-projects {
+            border-color: #f39c12;
+            background: rgba(243, 156, 18, 0.1);
+        }
+        .legend-item.fill-ins {
+            border-color: #95a5a6;
+            background: rgba(149, 165, 166, 0.1);
+        }
+        .legend-item.questionable {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+        }
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 12px;
+            border: 2px solid;
+        }
+        .legend-dot.quick-wins {
+            background: #2ecc71;
+            border-color: #27ae60;
+        }
+        .legend-dot.major-projects {
+            background: #f1c40f;
+            border-color: #f39c12;
+        }
+        .legend-dot.fill-ins {
+            background: #bdc3c7;
+            border-color: #95a5a6;
+        }
+        .legend-dot.questionable {
+            background: #e67e22;
+            border-color: #e74c3c;
+        }
+        .grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .grid-line {
+            position: absolute;
+            background: rgba(52, 73, 94, 0.1);
+        }
+        .grid-line.vertical {
+            width: 1px;
+            height: 100%;
+        }
+        .grid-line.horizontal {
+            height: 1px;
+            width: 100%;
+        }
+        .axis-ticks {
+            position: absolute;
+            font-size: 0.8em;
+            color: #7f8c8d;
+        }
+        .summary {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        .summary h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .implementation-order {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .priority-box {
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid;
+            text-align: center;
+        }
+        .priority-box.sprint1 {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        .priority-box.sprint2 {
+            border-color: #f39c12;
+            background: rgba(243, 156, 18, 0.1);
+        }
+        .priority-box.future {
+            border-color: #95a5a6;
+            background: rgba(149, 165, 166, 0.1);
+        }
+        .priority-box h4 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EV2 WhatIf Design Recommendations</h1>
+            <p>KANO Model: Effort vs Impact Analysis</p>
+        </div>
+        
+        <div class="kano-container">
+            <div class="kano-chart" id="kanoChart">
+                <!-- Grid lines -->
+                <div class="grid-lines">
+                    <div class="grid-line vertical" style="left: 25%;"></div>
+                    <div class="grid-line vertical" style="left: 50%;"></div>
+                    <div class="grid-line vertical" style="left: 75%;"></div>
+                    <div class="grid-line horizontal" style="top: 25%;"></div>
+                    <div class="grid-line horizontal" style="top: 50%;"></div>
+                    <div class="grid-line horizontal" style="top: 75%;"></div>
+                </div>
+
+                <!-- Axes -->
+                <div class="axis axis-x"></div>
+                <div class="axis axis-y"></div>
+                
+                <!-- Axis labels -->
+                <div class="axis-label x">Effort →</div>
+                <div class="axis-label y">Impact ↑</div>
+                
+                <!-- Quadrant labels -->
+                <div class="quadrant-label quadrant-low-effort-high-impact">Quick Wins</div>
+                <div class="quadrant-label quadrant-high-effort-high-impact">Major Projects</div>
+                <div class="quadrant-label quadrant-low-effort-low-impact">Fill-ins</div>
+                <div class="quadrant-label quadrant-high-effort-low-impact">Questionable</div>
+
+                <!-- Axis ticks -->
+                <div class="axis-ticks" style="bottom: -20px; left: 25%;">Low</div>
+                <div class="axis-ticks" style="bottom: -20px; left: 75%;">High</div>
+                <div class="axis-ticks" style="left: -25px; top: 75%;">Low</div>
+                <div class="axis-ticks" style="left: -25px; top: 25%;">High</div>
+
+                <!-- Features plotted on chart -->
+                
+                <!-- Quick Wins (Low Effort, High Impact) -->
+                <div class="feature quick-wins" style="left: 20%; top: 25%;" 
+                     data-title="Clickable Change Type Summaries"
+                     data-evidence="Alex: 'I think it'd be useful if under each column where you have create three resources, if that also was kind of a hyperlink'"
+                     data-impact="High - Enables focused review, reduces clicks"
+                     data-effort="Low - UI enhancement to existing elements">
+                </div>
+
+                <div class="feature quick-wins" style="left: 15%; top: 30%;" 
+                     data-title="Status Indicators (Success/Failure)"
+                     data-evidence="Imran: 'No, it failed. Succeed. Are you telling anything on those sides or no?'"
+                     data-impact="High - Reduces need for additional navigation"
+                     data-effort="Low - Simple icon addition to summary view">
+                </div>
+
+                <div class="feature quick-wins" style="left: 25%; top: 35%;" 
+                     data-title="Show Resource Names in Summary"
+                     data-evidence="Alex: 'I feel like the names and what the resource type is is already, you know out and available'"
+                     data-impact="High - Critical for user confidence"
+                     data-effort="Low - Data already available, display change">
+                </div>
+
+                <!-- Major Projects (High Effort, High Impact) -->
+                <div class="feature major-projects" style="left: 75%; top: 20%;" 
+                     data-title="Cross-Portal Navigation Integration"
+                     data-evidence="Imran: 'And there's a lot of hops, per se, lots of hops'"
+                     data-impact="Very High - Solves major user pain point"
+                     data-effort="High - Requires portal architecture changes">
+                </div>
+
+                <div class="feature major-projects" style="left: 80%; top: 25%;" 
+                     data-title="Delete Operation Visual Treatment"
+                     data-evidence="Imran: 'I would be jumping into the delete ones and I would be very much interested'"
+                     data-impact="High - Safety and user attention focus"
+                     data-effort="Medium-High - Custom UI components and workflows">
+                </div>
+
+                <div class="feature major-projects" style="left: 70%; top: 30%;" 
+                     data-title="WhatIf Result History Tracking"
+                     data-evidence="Imran: 'engineers in the team want to do is also find out the history'"
+                     data-impact="High - Operational workflow requirement"
+                     data-effort="High - Backend storage and UI components">
+                </div>
+
+                <!-- Fill-ins (Low Effort, Medium Impact) -->
+                <div class="feature fill-ins" style="left: 30%; top: 60%;" 
+                     data-title="Hover States for Resource Details"
+                     data-evidence="Imran: 'When I hover over those resources, will you be able to tell me the names?'"
+                     data-impact="Medium - Nice to have for quick scanning"
+                     data-effort="Low - Simple hover interaction">
+                </div>
+
+                <div class="feature fill-ins" style="left: 20%; top: 65%;" 
+                     data-title="Resource Type Icons"
+                     data-evidence="User feedback on visual clarity"
+                     data-impact="Medium - Improves visual scanning"
+                     data-effort="Low - Icon library integration">
+                </div>
+
+                <!-- Medium Effort, High Impact -->
+                <div class="feature major-projects" style="left: 55%; top: 25%;" 
+                     data-title="Hyperlinks to Deployed Resources"
+                     data-evidence="Alex: 'perhaps even now a hyperlink to portal to take me to said resource'"
+                     data-impact="High - Dependency tracking for complex deployments"
+                     data-effort="Medium - Integration with Azure Portal links">
+                </div>
+
+                <div class="feature major-projects" style="left: 60%; top: 35%;" 
+                     data-title="Progressive Disclosure Enhancement"
+                     data-evidence="Alex: 'this just gives me a high level... But you give me the option of, OK, I want to see that more detail'"
+                     data-impact="High - Core user workflow improvement"
+                     data-effort="Medium - Multi-level UI architecture">
+                </div>
+
+                <!-- Future/Research (High Effort, Medium Impact) -->
+                <div class="feature fill-ins" style="left: 85%; top: 55%;" 
+                     data-title="Tree View for Resource Hierarchies"
+                     data-evidence="Research need for complex deployments"
+                     data-impact="Medium - Needed for large deployments"
+                     data-effort="High - Complex UI component development">
+                </div>
+
+                <div class="feature questionable" style="left: 90%; top: 65%;" 
+                     data-title="EV2 Extension in Azure Portal"
+                     data-evidence="Imran: 'Do we have any plans to have EV2 as an extension in the portal itself'"
+                     data-impact="Medium - Long-term vision"
+                     data-effort="Very High - Major architectural change">
+                </div>
+
+                <!-- Questionable (High Effort, Low Impact) -->
+                <div class="feature questionable" style="left: 80%; top: 80%;" 
+                     data-title="Advanced Graphical View"
+                     data-evidence="Imran: 'some of our deployments are gonna be really huge and bulky'"
+                     data-impact="Low - Users prefer list view"
+                     data-effort="High - Complex visualization development">
+                </div>
+            </div>
+
+            <!-- Tooltip -->
+            <div class="feature-tooltip" id="tooltip">
+                <h4 id="tooltip-title"></h4>
+                <p><strong>Impact:</strong> <span id="tooltip-impact"></span></p>
+                <p><strong>Effort:</strong> <span id="tooltip-effort"></span></p>
+                <p class="evidence"><strong>Evidence:</strong> <span id="tooltip-evidence"></span></p>
+            </div>
+
+            <!-- Legend -->
+            <div class="legend">
+                <div class="legend-item quick-wins">
+                    <div class="legend-dot quick-wins"></div>
+                    <div>
+                        <strong>Quick Wins</strong><br>
+                        Low effort, high impact - Implement first
+                    </div>
+                </div>
+                <div class="legend-item major-projects">
+                    <div class="legend-dot major-projects"></div>
+                    <div>
+                        <strong>Major Projects</strong><br>
+                        High effort, high impact - Plan carefully
+                    </div>
+                </div>
+                <div class="legend-item fill-ins">
+                    <div class="legend-dot fill-ins"></div>
+                    <div>
+                        <strong>Fill-ins</strong><br>
+                        Low effort, medium impact - Nice to have
+                    </div>
+                </div>
+                <div class="legend-item questionable">
+                    <div class="legend-dot questionable"></div>
+                    <div>
+                        <strong>Questionable</strong><br>
+                        High effort, low impact - Reconsider
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary and Implementation Plan -->
+            <div class="summary">
+                <h3>📋 Implementation Roadmap Based on KANO Analysis</h3>
+                <div class="implementation-order">
+                    <div class="priority-box sprint1">
+                        <h4>🚀 Sprint 1: Quick Wins</h4>
+                        <ul style="text-align: left; padding-left: 20px;">
+                            <li>Clickable change type summaries</li>
+                            <li>Resource names in summary view</li>
+                            <li>Success/failure status indicators</li>
+                        </ul>
+                        <strong>ROI: Immediate user satisfaction</strong>
+                    </div>
+                    <div class="priority-box sprint2">
+                        <h4>⚡ Sprint 2-3: Major Projects</h4>
+                        <ul style="text-align: left; padding-left: 20px;">
+                            <li>Delete operation visual treatment</li>
+                            <li>Progressive disclosure enhancement</li>
+                            <li>Hyperlinks to deployed resources</li>
+                        </ul>
+                        <strong>ROI: Core workflow improvements</strong>
+                    </div>
+                    <div class="priority-box future">
+                        <h4>🔮 Future: Strategic Initiatives</h4>
+                        <ul style="text-align: left; padding-left: 20px;">
+                            <li>Cross-portal navigation integration</li>
+                            <li>WhatIf result history tracking</li>
+                            <li>Advanced tree views (if needed)</li>
+                        </ul>
+                        <strong>ROI: Long-term experience vision</strong>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(52, 152, 219, 0.1); border-radius: 8px;">
+                    <h4>🎯 Key Insight from KANO Analysis:</h4>
+                    <p><strong>Focus on Quick Wins first</strong> - These low-effort, high-impact features will provide immediate user satisfaction and validate the design direction before investing in larger initiatives.</p>
+                    <p><strong>Validate before major projects</strong> - Use quick wins to gather user feedback and refine requirements for the high-effort features.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tooltip functionality
+        const features = document.querySelectorAll('.feature');
+        const tooltip = document.getElementById('tooltip');
+        const tooltipTitle = document.getElementById('tooltip-title');
+        const tooltipImpact = document.getElementById('tooltip-impact');
+        const tooltipEffort = document.getElementById('tooltip-effort');
+        const tooltipEvidence = document.getElementById('tooltip-evidence');
+
+        features.forEach(feature => {
+            feature.addEventListener('mouseenter', (e) => {
+                const rect = e.target.getBoundingClientRect();
+                const chartRect = document.getElementById('kanoChart').getBoundingClientRect();
+                
+                tooltipTitle.textContent = e.target.dataset.title;
+                tooltipImpact.textContent = e.target.dataset.impact;
+                tooltipEffort.textContent = e.target.dataset.effort;
+                tooltipEvidence.textContent = e.target.dataset.evidence;
+                
+                // Position tooltip
+                let left = rect.left - chartRect.left + 30;
+                let top = rect.top - chartRect.top - 10;
+                
+                // Adjust if tooltip would go off screen
+                if (left + 350 > chartRect.width) {
+                    left = rect.left - chartRect.left - 350;
+                }
+                if (top < 0) {
+                    top = rect.top - chartRect.top + 30;
+                }
+                
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+                tooltip.classList.add('show');
+            });
+
+            feature.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('show');
+            });
+        });
+
+        // Hide tooltip when clicking elsewhere
+        document.addEventListener('click', () => {
+            tooltip.classList.remove('show');
+        });
+    </script>
+</body>
+</html>

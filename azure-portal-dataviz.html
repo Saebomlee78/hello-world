@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Resource Graph Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Azure Portal Fluent UI Icons -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css">
+</head>
+<body>
+    <!-- Azure Portal Header -->
+    <header class="azure-header">
+        <div class="header-left">
+            <button class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="azure-logo">
+                <i class="fab fa-microsoft"></i>
+                <span>Microsoft Azure</span>
+            </div>
+        </div>
+        <div class="header-center">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search resources, services, and docs (G+/)">
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="header-btn">
+                <i class="fas fa-bell"></i>
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-cog"></i>
+            </button>
+            <button class="header-btn">
+                <i class="fas fa-question-circle"></i>
+            </button>
+            <div class="user-profile">
+                <span>Copilot</span>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Breadcrumb -->
+    <nav class="breadcrumb">
+        <span class="breadcrumb-item">Home</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="breadcrumb-item current">Azure Resource Graph Explorer</span>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <i class="fas fa-project-diagram"></i>
+                <h1>Azure Resource Graph Explorer</h1>
+                <div class="header-actions">
+                    <button class="btn-icon" title="Pin">
+                        <i class="fas fa-thumbtack"></i>
+                    </button>
+                    <button class="btn-icon" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="btn-icon" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Query Tab Section -->
+        <div class="query-section">
+            <div class="query-tabs">
+                <div class="tab active">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Incident 594344...</span>
+                    <button class="tab-close">×</button>
+                </div>
+                <button class="tab-add">+</button>
+            </div>
+
+            <!-- Query Toolbar -->
+            <div class="query-toolbar">
+                <button class="btn-primary">
+                    <i class="fas fa-play"></i>
+                    Run
+                </button>
+                <span class="subscription-info">Subscription : Contoso Infra1</span>
+                <div class="toolbar-actions">
+                    <button class="btn-secondary">
+                        <i class="fas fa-save"></i>
+                        Save
+                    </button>
+                    <button class="btn-secondary">
+                        <i class="fas fa-share"></i>
+                        Share
+                    </button>
+                    <button class="btn-secondary">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                    <button class="btn-secondary">
+                        <i class="fas fa-link"></i>
+                        Pin to
+                    </button>
+                    <button class="btn-secondary">
+                        <i class="fas fa-list"></i>
+                        Format query
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+            <div class="results-tabs">
+                <button class="tab-btn">Results</button>
+                <button class="tab-btn active">Graph</button>
+                <button class="tab-btn">Chart</button>
+            </div>
+
+            <!-- Filters Bar -->
+            <div class="filters-bar">
+                <input type="text" class="filter-input" placeholder="Filter for any field...">
+                <div class="filter-pills">
+                    <span class="filter-pill">
+                        Subscription : all
+                        <button class="pill-remove">×</button>
+                    </span>
+                    <span class="filter-pill">
+                        Resource group : all
+                        <button class="pill-remove">×</button>
+                    </span>
+                    <span class="filter-pill">
+                        Resource type : All
+                        <button class="pill-remove">×</button>
+                    </span>
+                    <span class="filter-pill">
+                        Location : All
+                        <button class="pill-remove">×</button>
+                    </span>
+                    <span class="filter-pill">
+                        Status : All
+                        <button class="pill-remove">×</button>
+                    </span>
+                    <button class="add-filter">
+                        <i class="fas fa-plus"></i>
+                        Add filter
+                    </button>
+                </div>
+                <div class="view-options">
+                    <select class="grouping-select">
+                        <option>No grouping</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Visualization Container -->
+            <div class="visualization-container">
+                <div class="sidebar-controls">
+                    <button class="control-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="control-btn" title="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="control-btn" title="Zoom In">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="control-btn" title="Zoom Out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button class="control-btn" title="Fit to Screen">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                    <button class="control-btn" title="Reset View">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                    <button class="control-btn" title="Fullscreen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button class="control-btn" title="Download">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <div id="graph-container"></div>
+            </div>
+
+            <!-- Results Footer -->
+            <div class="results-footer">
+                <span class="item-count">1-20 of 80 items</span>
+                <div class="pagination">
+                    <button class="page-btn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="page-btn current">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <button class="feedback-btn">
+                    <i class="fas fa-comment"></i>
+                    Give feedback
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
